@@ -1,6 +1,6 @@
 name: homigo_sdk
 description: "Reusable Flutter foundation, design system, platform services, and production infrastructure for HomiGo applications."
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/traikeyy-cmd/homigo-sdk
 repository: https://github.com/traikeyy-cmd/homigo-sdk
 publish_to: "none"
@@ -15,11 +15,11 @@ dependencies:
   file_picker: ^12.0.0
   flutter:
     sdk: flutter
-  flutter_secure_storage: ^11.0.0
+  flutter_secure_storage: ^10.3.1
   http: ^1.6.0
   image_picker: ^1.2.3
   package_info_plus: ^10.2.1
-  permission_handler: ^13.0.1
+  permission_handler: ^12.0.3
   shared_preferences: ^2.5.5
 
 dev_dependencies:
@@ -42,13 +42,12 @@ flutter:
   # https://flutter.dev/to/asset-from-package
   #
   # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/to/resolution-aware-images
+  # https://flutter.dev/to/asset-from-package
 
   # To add custom fonts to your package, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
+  # "family" key and a "fonts" key.
+  # For example:
   # fonts:
   #   - family: Schyler
   #     fonts:
@@ -60,6 +59,3 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
-  # For details regarding fonts in packages, see
-  # https://flutter.dev/to/font-from-package
