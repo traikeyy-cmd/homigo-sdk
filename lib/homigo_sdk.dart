@@ -27,6 +27,18 @@ export 'src/core/connectivity/homigo_connectivity.dart';
 export 'src/core/localization/homigo_localization.dart';
 export 'src/core/permissions/homigo_permissions.dart';
 
+// Platform Adapters
+export 'src/adapters/homigo_platform_adapters.dart';
+export 'src/adapters/storage/homigo_shared_preferences_storage.dart';
+export 'src/adapters/storage/homigo_flutter_secure_storage.dart';
+export 'src/adapters/network/homigo_http_transport.dart';
+export 'src/adapters/connectivity/homigo_connectivity_plus_adapter.dart';
+export 'src/adapters/permissions/homigo_permission_handler_adapter.dart';
+export 'src/adapters/files/homigo_file_picker.dart';
+export 'src/adapters/media/homigo_image_picker.dart';
+export 'src/adapters/device/homigo_device_info.dart';
+export 'src/adapters/device/homigo_package_info.dart';
+
 // Design Tokens
 export 'src/design_system/tokens/homigo_colors.dart';
 export 'src/design_system/tokens/homigo_radius.dart';
