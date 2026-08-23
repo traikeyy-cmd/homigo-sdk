@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../platform/system_ui/homigo_insets.dart';
 import '../cards/homigo_glass_card.dart';
 
 abstract final class HomiGoBottomSheet {
@@ -10,6 +11,7 @@ abstract final class HomiGoBottomSheet {
     bool showHandle = true,
     bool isScrollControlled = true,
     bool isDismissible = true,
+    bool useSafeArea = true,
   }) {
     return showModalBottomSheet<T>(
       context: context,
@@ -17,44 +19,56 @@ abstract final class HomiGoBottomSheet {
       barrierColor: Colors.black.withValues(alpha: 0.18),
       isScrollControlled: isScrollControlled,
       isDismissible: isDismissible,
+      useSafeArea: false,
       builder: (sheetContext) {
         final theme = Theme.of(sheetContext);
-        final bottomInset = MediaQuery.of(sheetContext).viewInsets.bottom;
 
-        return SafeArea(
-          top: false,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(12, 12, 12, 12 + bottomInset),
-            child: HomiGoGlassCard(
-              borderRadius: 28,
-              padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (showHandle) ...[
-                    Container(
-                      width: 42,
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: theme.dividerColor.withValues(alpha: 0.45),
-                        borderRadius: BorderRadius.circular(999),
-                      ),
+        Widget sheet = Padding(
+          padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+          child: HomiGoGlassCard(
+            borderRadius: 28,
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (showHandle) ...[
+                  Container(
+                    width: 42,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: theme.dividerColor.withValues(alpha: 0.45),
+                      borderRadius: BorderRadius.circular(999),
                     ),
-                    const SizedBox(height: 14),
-                  ],
-                  if (title != null) ...[
-                    Align(
-                      alignment: AlignmentDirectional.centerStart,
-                      child: Text(title, style: theme.textTheme.titleLarge),
-                    ),
-                    const SizedBox(height: 16),
-                  ],
-                  child,
+                  ),
+                  const SizedBox(height: 14),
                 ],
-              ),
+                if (title != null) ...[
+                  Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Text(title, style: theme.textTheme.titleLarge),
+                  ),
+                  const SizedBox(height: 16),
+                ],
+                child,
+              ],
             ),
           ),
         );
+
+        sheet = HomiGoKeyboardInsets(
+          includeBottomSystemInset: true,
+          child: sheet,
+        );
+
+        if (useSafeArea) {
+          sheet = HomiGoSafeArea(
+            top: false,
+            maintainBottomViewPadding: true,
+            child: sheet,
+          );
+        }
+
+        return sheet;
       },
     );
   }

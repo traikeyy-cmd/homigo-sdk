@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/liquid/homigo_liquid_surface.dart';
+import '../../platform/system_ui/homigo_insets.dart';
 import '../cards/homigo_glass_card.dart';
 
 class HomiGoAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -11,6 +12,8 @@ class HomiGoAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> actions;
   final bool centerTitle;
 
+  final bool respectTopInset;
+
   const HomiGoAppBar({
     super.key,
     this.title,
@@ -18,6 +21,7 @@ class HomiGoAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.leading,
     this.actions = const [],
     this.centerTitle = false,
+    this.respectTopInset = true,
   });
 
   @override
@@ -28,34 +32,42 @@ class HomiGoAppBar extends StatelessWidget implements PreferredSizeWidget {
     final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
 
-    return Material(
-      color: Colors.transparent,
-      child: HomiGoLiquidSurface(
-        borderRadius: 0,
-        tintColor: brand.primaryColor,
-        tintStrength: 0.012,
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: SizedBox(
-          height: kToolbarHeight,
-          child: Row(
-            children: [
-              SizedBox(width: 48, child: leading),
-              Expanded(
-                child: Align(
-                  alignment: centerTitle
-                      ? Alignment.center
-                      : AlignmentDirectional.centerStart,
-                  child:
-                      titleWidget ??
-                      Text(title ?? '', style: theme.textTheme.titleLarge),
-                ),
+    Widget toolbar = HomiGoLiquidSurface(
+      borderRadius: 0,
+      tintColor: brand.primaryColor,
+      tintStrength: 0.012,
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: SizedBox(
+        height: kToolbarHeight,
+        child: Row(
+          children: [
+            SizedBox(width: 48, child: leading),
+            Expanded(
+              child: Align(
+                alignment: centerTitle
+                    ? Alignment.center
+                    : AlignmentDirectional.centerStart,
+                child:
+                    titleWidget ??
+                    Text(title ?? '', style: theme.textTheme.titleLarge),
               ),
-              ...actions,
-            ],
-          ),
+            ),
+            ...actions,
+          ],
         ),
       ),
     );
+
+    if (respectTopInset) {
+      toolbar = HomiGoSafeArea(
+        left: false,
+        right: false,
+        bottom: false,
+        child: toolbar,
+      );
+    }
+
+    return Material(color: Colors.transparent, child: toolbar);
   }
 }
 
@@ -72,7 +84,7 @@ class HomiGoDrawer extends StatelessWidget {
       elevation: 0,
       backgroundColor: Colors.transparent,
       surfaceTintColor: Colors.transparent,
-      child: SafeArea(
+      child: HomiGoSafeArea(
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: HomiGoGlassCard(

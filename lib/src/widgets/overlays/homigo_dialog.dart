@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../platform/system_ui/homigo_insets.dart';
 import '../cards/homigo_glass_card.dart';
 
 abstract final class HomiGoDialog {
@@ -17,36 +18,42 @@ abstract final class HomiGoDialog {
       builder: (dialogContext) {
         final theme = Theme.of(dialogContext);
 
-        return Dialog(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          surfaceTintColor: Colors.transparent,
-          insetPadding: const EdgeInsets.symmetric(
-            horizontal: 24,
-            vertical: 24,
-          ),
-          child: HomiGoGlassCard(
-            borderRadius: 26,
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (title != null) ...[
-                  Text(title, style: theme.textTheme.titleLarge),
-                  const SizedBox(height: 14),
-                ],
-                content,
-                if (actions.isNotEmpty) ...[
-                  const SizedBox(height: 18),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    alignment: WrapAlignment.end,
-                    children: actions,
+        return HomiGoSafeArea(
+          child: HomiGoKeyboardInsets(
+            child: Dialog(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              surfaceTintColor: Colors.transparent,
+              insetPadding: const EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: 24,
+              ),
+              child: SingleChildScrollView(
+                child: HomiGoGlassCard(
+                  borderRadius: 26,
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      if (title != null) ...[
+                        Text(title, style: theme.textTheme.titleLarge),
+                        const SizedBox(height: 14),
+                      ],
+                      content,
+                      if (actions.isNotEmpty) ...[
+                        const SizedBox(height: 18),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          alignment: WrapAlignment.end,
+                          children: actions,
+                        ),
+                      ],
+                    ],
                   ),
-                ],
-              ],
+                ),
+              ),
             ),
           ),
         );
