@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import '../logger/homigo_logger.dart';
@@ -107,6 +108,19 @@ class HomiGoNetworkClient {
 
     try {
       raw = await transport.send(request).timeout(timeout);
+    } on TimeoutException catch (error, stackTrace) {
+      HomiGoLogger.error(
+        'Network request timed out',
+        tag: 'HomiGoNetwork',
+        error: error,
+        stackTrace: stackTrace,
+      );
+
+      throw HomiGoApiException(
+        message: 'Network request timed out',
+        type: HomiGoApiErrorType.timeout,
+        cause: error,
+      );
     } on HomiGoApiException {
       rethrow;
     } catch (error, stackTrace) {

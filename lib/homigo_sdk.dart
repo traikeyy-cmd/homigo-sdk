@@ -27,6 +27,16 @@ export 'src/core/connectivity/homigo_connectivity.dart';
 export 'src/core/localization/homigo_localization.dart';
 export 'src/core/permissions/homigo_permissions.dart';
 
+// Production / Reliability
+export 'src/bootstrap/homigo_bootstrap.dart';
+export 'src/core/result/homigo_result.dart';
+export 'src/core/reliability/homigo_cancellation.dart';
+export 'src/core/reliability/homigo_retry.dart';
+export 'src/core/reliability/homigo_network_resilience.dart';
+export 'src/core/reliability/homigo_error_mapper.dart';
+export 'src/core/lifecycle/homigo_app_lifecycle.dart';
+export 'src/core/diagnostics/homigo_diagnostics.dart';
+
 // Platform Adapters
 export 'src/adapters/homigo_platform_adapters.dart';
 export 'src/adapters/storage/homigo_shared_preferences_storage.dart';
