@@ -53,14 +53,9 @@ class HomiGoLiquidSurface extends StatelessWidget {
     final tint = tintColor ?? brand.primaryColor;
 
     final effectiveTintStrength =
-        (selected ? tintStrength * 1.45 : tintStrength)
+        (selected ? tintStrength * 1.35 : tintStrength)
             .clamp(0.0, 1.0)
             .toDouble();
-
-    final surfaceOpacity = isDark ? 0.24 : 0.30;
-
-    final topHighlight = isDark ? 0.15 : 0.52;
-    final lowerShade = isDark ? 0.18 : 0.08;
 
     final effectiveRadius = BorderRadius.circular(radius);
 
@@ -77,109 +72,145 @@ class HomiGoLiquidSurface extends StatelessWidget {
           child: Stack(
             fit: StackFit.passthrough,
             children: [
-              // ------------------------------------------------
-              // Water body
-              // ------------------------------------------------
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  borderRadius: effectiveRadius,
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Colors.white.withValues(
-                        alpha: isDark ? 0.08 : surfaceOpacity,
+              // ==================================================
+              // WATER BODY
+              // جسم مائي شفاف جدًا.
+              // لا يوجد لون أبيض مصمت ولا Border.
+              // ==================================================
+              Positioned.fill(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: effectiveRadius,
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.white.withValues(alpha: isDark ? 0.045 : 0.075),
+                        tint.withValues(alpha: effectiveTintStrength * 0.42),
+                        Colors.white.withValues(alpha: isDark ? 0.015 : 0.025),
+                      ],
+                      stops: const [0.0, 0.56, 1.0],
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white.withValues(
+                          alpha: isDark ? 0.025 : 0.14,
+                        ),
+                        offset: const Offset(-2, -2),
+                        blurRadius: 8,
                       ),
-                      tint.withValues(alpha: effectiveTintStrength),
-                      isDark
-                          ? Colors.black.withValues(alpha: 0.12)
-                          : Colors.white.withValues(alpha: 0.12),
+                      BoxShadow(
+                        color: Colors.black.withValues(
+                          alpha: isDark ? 0.22 : 0.055,
+                        ),
+                        offset: const Offset(2, 4),
+                        blurRadius: 16,
+                      ),
                     ],
-                    stops: const [0.0, 0.56, 1.0],
-                  ),
-                  boxShadow: [
-                    // الضوء الخارجي العلوي.
-                    BoxShadow(
-                      color: Colors.white.withValues(
-                        alpha: isDark ? 0.04 : 0.28,
-                      ),
-                      offset: const Offset(-1.5, -1.5),
-                      blurRadius: 4,
-                    ),
-
-                    // الظل السفلي يعطي إحساس العمق.
-                    BoxShadow(
-                      color: Colors.black.withValues(
-                        alpha: isDark ? 0.30 : 0.10,
-                      ),
-                      offset: const Offset(2, 3),
-                      blurRadius: 8,
-                    ),
-                  ],
-                ),
-                child: const SizedBox.expand(),
-              ),
-
-              // ------------------------------------------------
-              // Carved upper edge
-              // لا يوجد Border مباشر.
-              // ------------------------------------------------
-              Positioned(
-                top: 0,
-                left: radius * 0.45,
-                right: radius * 0.45,
-                height: 1.4,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.transparent,
-                        Colors.white.withValues(alpha: topHighlight),
-                        Colors.transparent,
-                      ],
-                    ),
                   ),
                 ),
               ),
 
-              // ------------------------------------------------
-              // Carved lower edge
-              // ------------------------------------------------
+              // ==================================================
+              // SOFT TOP REFLECTION
+              // انعكاس الماء من الأعلى.
+              // ==================================================
               Positioned(
-                bottom: 0,
-                left: radius * 0.55,
-                right: radius * 0.55,
-                height: 1.2,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.transparent,
-                        Colors.black.withValues(alpha: lowerShade),
-                        Colors.transparent,
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              // ------------------------------------------------
-              // Soft internal reflection
-              // ------------------------------------------------
-              Positioned(
-                top: -35,
-                left: -20,
-                right: 20,
-                height: 65,
+                top: -42,
+                left: -25,
+                right: 10,
+                height: 82,
                 child: IgnorePointer(
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(radius * 2),
+                      borderRadius: BorderRadius.circular(radius * 2.2),
                       gradient: RadialGradient(
                         center: Alignment.topLeft,
-                        radius: 1.2,
+                        radius: 1.15,
                         colors: [
-                          Colors.white.withValues(alpha: isDark ? 0.08 : 0.24),
+                          Colors.white.withValues(alpha: isDark ? 0.06 : 0.16),
+                          Colors.white.withValues(
+                            alpha: isDark ? 0.015 : 0.025,
+                          ),
+                          Colors.transparent,
+                        ],
+                        stops: const [0.0, 0.52, 1.0],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // ==================================================
+              // CARVED TOP EDGE
+              // ضوء رفيع غير كامل يعطي إحساس الحفر.
+              // ==================================================
+              Positioned(
+                top: 0.4,
+                left: radius * 0.70,
+                right: radius * 0.70,
+                height: 1,
+                child: IgnorePointer(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.transparent,
+                          Colors.white.withValues(alpha: isDark ? 0.12 : 0.34),
+                          Colors.white.withValues(alpha: isDark ? 0.07 : 0.18),
+                          Colors.transparent,
+                        ],
+                        stops: const [0.0, 0.30, 0.70, 1.0],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // ==================================================
+              // CARVED LOWER EDGE
+              // ظل داخلي خفيف أسفل السطح.
+              // ==================================================
+              Positioned(
+                bottom: 0.4,
+                left: radius * 0.85,
+                right: radius * 0.85,
+                height: 1,
+                child: IgnorePointer(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withValues(alpha: isDark ? 0.14 : 0.055),
+                          Colors.black.withValues(alpha: isDark ? 0.10 : 0.035),
+                          Colors.transparent,
+                        ],
+                        stops: const [0.0, 0.32, 0.68, 1.0],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // ==================================================
+              // SIDE LIGHT
+              // انعكاس جانبي يكسر شكل المستطيل التقليدي.
+              // ==================================================
+              Positioned(
+                top: radius * 0.8,
+                bottom: radius * 0.8,
+                left: 0.4,
+                width: 1,
+                child: IgnorePointer(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.white.withValues(alpha: isDark ? 0.06 : 0.18),
                           Colors.transparent,
                         ],
                       ),
@@ -188,9 +219,11 @@ class HomiGoLiquidSurface extends StatelessWidget {
                 ),
               ),
 
-              // ------------------------------------------------
-              // Selected liquid glow
-              // ------------------------------------------------
+              // ==================================================
+              // SELECTED WATER GLOW
+              // الاختيار لا يصبح كتلة ملونة.
+              // مجرد Tint داخلي مائي.
+              // ==================================================
               if (selected)
                 Positioned.fill(
                   child: IgnorePointer(
@@ -199,20 +232,22 @@ class HomiGoLiquidSurface extends StatelessWidget {
                         borderRadius: effectiveRadius,
                         gradient: RadialGradient(
                           center: Alignment.center,
-                          radius: 1.0,
+                          radius: 1.15,
                           colors: [
-                            tint.withValues(alpha: 0.10),
+                            tint.withValues(alpha: 0.075),
+                            tint.withValues(alpha: 0.025),
                             Colors.transparent,
                           ],
+                          stops: const [0.0, 0.55, 1.0],
                         ),
                       ),
                     ),
                   ),
                 ),
 
-              // ------------------------------------------------
-              // Content
-              // ------------------------------------------------
+              // ==================================================
+              // CONTENT
+              // ==================================================
               Padding(padding: padding ?? EdgeInsets.zero, child: child),
             ],
           ),
