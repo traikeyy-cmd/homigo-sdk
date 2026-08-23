@@ -23,3 +23,6 @@ export 'src/widgets/cards/homigo_glass_card.dart';
 
 // Widgets - Buttons
 export 'src/widgets/buttons/homigo_button.dart';
+
+// Design System - Liquid
+export 'src/design_system/liquid/homigo_liquid_surface.dart';
