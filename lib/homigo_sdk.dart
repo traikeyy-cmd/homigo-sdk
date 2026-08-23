@@ -20,3 +20,6 @@ export 'src/design_system/theme/homigo_theme.dart';
 
 // Widgets - Cards
 export 'src/widgets/cards/homigo_glass_card.dart';
+
+// Widgets - Buttons
+export 'src/widgets/buttons/homigo_button.dart';
