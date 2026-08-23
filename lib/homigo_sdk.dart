@@ -17,3 +17,6 @@ export 'src/design_system/tokens/homigo_typography.dart';
 
 // Theme
 export 'src/design_system/theme/homigo_theme.dart';
+
+// Widgets - Cards
+export 'src/widgets/cards/homigo_glass_card.dart';
