@@ -1,0 +1,27 @@
+name: homigo_sdk_firebase
+description: Firebase integrations for HomiGo SDK.
+version: 0.0.1
+publish_to: 'none'
+
+environment:
+  sdk: ">=3.11.0 <4.0.0"
+
+dependencies:
+  firebase_analytics: ^12.4.6
+  firebase_auth: ^6.5.7
+  firebase_core: ^4.13.0
+  firebase_crashlytics: ^5.2.7
+  firebase_messaging: ^16.5.0
+  firebase_remote_config: ^6.5.6
+  flutter:
+    sdk: flutter
+
+  homigo_sdk:
+    path: ../../
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
