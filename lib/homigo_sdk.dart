@@ -13,6 +13,20 @@ export 'src/core/config/homigo_sdk_core.dart';
 export 'src/platform/system_ui/homigo_system_ui.dart';
 export 'src/platform/system_ui/homigo_insets.dart';
 
+// Core Services
+export 'src/core/config/homigo_services.dart';
+export 'src/core/logger/homigo_logger.dart';
+export 'src/core/environment/homigo_environment.dart';
+export 'src/core/validation/homigo_validators.dart';
+export 'src/core/formatting/homigo_formatters.dart';
+export 'src/core/storage/homigo_storage.dart';
+export 'src/core/session/homigo_session.dart';
+export 'src/core/network/homigo_api_models.dart';
+export 'src/core/network/homigo_network_client.dart';
+export 'src/core/connectivity/homigo_connectivity.dart';
+export 'src/core/localization/homigo_localization.dart';
+export 'src/core/permissions/homigo_permissions.dart';
+
 // Design Tokens
 export 'src/design_system/tokens/homigo_colors.dart';
 export 'src/design_system/tokens/homigo_radius.dart';
