@@ -33,7 +33,7 @@ jobs:
         run: flutter pub get
 
       - name: Analyze Core SDK
-        run: flutter analyze
+        run: flutter analyze lib test
 
       - name: Test Core SDK
         run: flutter test
