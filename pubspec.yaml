@@ -3,7 +3,14 @@ description: "Reusable Flutter foundation, design system, platform services, and
 version: 1.0.1
 homepage: https://github.com/traikeyy-cmd/homigo-sdk
 repository: https://github.com/traikeyy-cmd/homigo-sdk
-publish_to: "none"
+issue_tracker: https://github.com/traikeyy-cmd/homigo-sdk/issues
+
+topics:
+  - flutter
+  - design-system
+  - ui-components
+  - networking
+  - application-framework
 
 environment:
   sdk: ">=3.11.0 <4.0.0"

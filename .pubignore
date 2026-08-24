@@ -1,0 +1,16 @@
+# Generated Flutter and Dart files
+/build/
+/coverage/
+/.dart_tool/
+/.flutter-plugins
+/.flutter-plugins-dependencies
+/pubspec.lock
+**/doc/api/
+
+# Example generated files
+/example/build/
+/example/.dart_tool/
+/example/pubspec.lock
+
+# Firebase companion package is published separately
+/packages/

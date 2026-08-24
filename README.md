@@ -1,12 +1,12 @@
 # HomiGo SDK
 
-**HomiGo SDK** is a reusable Flutter foundation for HomiGo applications.
+HomiGo SDK is a reusable Flutter foundation for building consistent, production-ready applications.
 
-It provides a shared design system, platform adapters, core application services, networking infrastructure, production hardening, and optional Firebase integrations.
+It provides a shared design system, reusable UI components, platform adapters, core application services, networking infrastructure, reliability tools, and optional Firebase integrations.
 
 ## Version
 
-Current release: **1.0.0**
+Current release: **1.0.1**
 
 ## Features
 
@@ -103,32 +103,23 @@ HomiGo SDK includes reusable components for:
 
 ## Installation
 
-HomiGo SDK is currently distributed directly through GitHub.
+Add HomiGo SDK to your Flutter project:
 
-Add the Core SDK to your application's `pubspec.yaml`:
+```bash
+flutter pub add homigo_sdk
+```
+
+Or add it manually to your application's `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  homigo_sdk:
-    git:
-      url: https://github.com/traikeyy-cmd/homigo-sdk.git
-      ref: v1.0.0
+  homigo_sdk: ^1.0.1
 ```
 
 Then run:
 
 ```bash
 flutter pub get
-```
-
-During development, `main` can be used instead of a release tag:
-
-```yaml
-dependencies:
-  homigo_sdk:
-    git:
-      url: https://github.com/traikeyy-cmd/homigo-sdk.git
-      ref: main
 ```
 
 ## Basic Initialization
@@ -250,28 +241,25 @@ final report = await HomiGoHealthCheck.run();
 
 ## Firebase Companion Package
 
-Firebase is intentionally kept outside the Core SDK.
+Firebase integrations are intentionally kept outside the Core SDK.
 
 This prevents applications that do not use Firebase from inheriting Firebase dependencies.
 
-The optional package is located at:
+Add the Firebase companion package with:
 
-```text
-packages/homigo_sdk_firebase
+```bash
+flutter pub add homigo_sdk_firebase
 ```
 
-To use it directly from this repository:
+Or add it manually:
 
 ```yaml
 dependencies:
-  homigo_sdk_firebase:
-    git:
-      url: https://github.com/traikeyy-cmd/homigo-sdk.git
-      ref: v1.0.0
-      path: packages/homigo_sdk_firebase
+  homigo_sdk: ^1.0.1
+  homigo_sdk_firebase: ^1.0.0
 ```
 
-## Firebase Features
+### Firebase Features
 
 The companion package provides integrations for:
 
@@ -306,7 +294,7 @@ Depending on the platform and setup, this may include:
 - `GoogleService-Info.plist`
 - Generated `firebase_options.dart`
 
-The SDK does not embed application-specific Firebase credentials.
+HomiGo SDK Firebase does not embed application-specific Firebase credentials.
 
 ## Firebase With Unified Bootstrap
 
@@ -379,7 +367,7 @@ dart format lib test
 Analyze:
 
 ```bash
-flutter analyze lib test
+flutter analyze
 ```
 
 Run tests:
@@ -388,11 +376,16 @@ Run tests:
 flutter test
 ```
 
+Test the package publication:
+
+```bash
+dart pub publish --dry-run
+```
+
 ## Firebase Package Validation
 
 ```bash
 cd packages/homigo_sdk_firebase
-
 flutter pub get
 flutter analyze
 flutter test
@@ -413,18 +406,14 @@ The CI pipeline performs:
 - Dart `>=3.11.0 <4.0.0`
 - Flutter compatible with Dart 3.11 or newer
 
-## Distribution
+Platform availability can depend on the configuration and platform support of the underlying Flutter plugins.
 
-The package is currently configured with:
+## Issues
 
-```yaml
-publish_to: "none"
-```
-
-HomiGo SDK is distributed through Git repositories rather than pub.dev.
+Report bugs and request features through the [GitHub issue tracker](https://github.com/traikeyy-cmd/homigo-sdk/issues).
 
 ## License
 
-HomiGo SDK is proprietary software.
+HomiGo SDK is available under the BSD 3-Clause License.
 
-Copyright © 2026 HomiGo. All rights reserved.
+Copyright © 2026 HomiGo.

@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   core-sdk:
-    name: Analyze and Test Core SDK
+    name: Validate Core SDK
     runs-on: ubuntu-latest
 
     steps:
@@ -32,14 +32,20 @@ jobs:
       - name: Get Core SDK dependencies
         run: flutter pub get
 
+      - name: Check Core SDK formatting
+        run: dart format --output=none --set-exit-if-changed lib test example/lib
+
       - name: Analyze Core SDK
-        run: flutter analyze lib test
+        run: flutter analyze
 
       - name: Test Core SDK
         run: flutter test
 
+      - name: Validate Core SDK publication
+        run: dart pub publish --dry-run
+
   firebase-sdk:
-    name: Analyze and Test Firebase SDK
+    name: Validate Firebase SDK
     runs-on: ubuntu-latest
 
     defaults:
@@ -61,6 +67,9 @@ jobs:
 
       - name: Get Firebase SDK dependencies
         run: flutter pub get
+
+      - name: Check Firebase SDK formatting
+        run: dart format --output=none --set-exit-if-changed lib test
 
       - name: Analyze Firebase SDK
         run: flutter analyze

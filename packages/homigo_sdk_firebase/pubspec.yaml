@@ -1,10 +1,20 @@
 name: homigo_sdk_firebase
-description: Firebase integrations for HomiGo SDK.
+description: "Optional Firebase integrations for HomiGo SDK, including authentication, messaging, analytics, Crashlytics, and Remote Config."
 version: 1.0.0
-publish_to: 'none'
+homepage: https://github.com/traikeyy-cmd/homigo-sdk
+repository: https://github.com/traikeyy-cmd/homigo-sdk/tree/main/packages/homigo_sdk_firebase
+issue_tracker: https://github.com/traikeyy-cmd/homigo-sdk/issues
+
+topics:
+  - firebase
+  - authentication
+  - push-notifications
+  - analytics
+  - crash-reporting
 
 environment:
   sdk: ">=3.11.0 <4.0.0"
+  flutter: ">=1.17.0"
 
 dependencies:
   firebase_analytics: ^12.4.6
@@ -15,9 +25,7 @@ dependencies:
   firebase_remote_config: ^6.5.6
   flutter:
     sdk: flutter
-
-  homigo_sdk:
-    path: ../../
+  homigo_sdk: ^1.0.1
 
 dev_dependencies:
   flutter_test:

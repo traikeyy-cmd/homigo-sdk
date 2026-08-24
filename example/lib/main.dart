@@ -48,7 +48,7 @@ class ExampleHomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'HomiGo SDK 1.0.0',
+                    'HomiGo SDK 1.0.1',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 12),

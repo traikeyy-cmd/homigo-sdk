@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.1
+
+### Changed
+
+- Improved compatibility with Flutter environments using Dart 3.11 or newer.
+- Changed `flutter_secure_storage` dependency to `^10.3.1`.
+- Changed `permission_handler` dependency to `^12.0.3`.
+- Updated the example application dependencies to use HomiGo SDK 1.0.1.
+
 ## 1.0.0
 
 Initial production release of HomiGo SDK.
