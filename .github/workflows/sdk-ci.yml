@@ -36,7 +36,7 @@ jobs:
         run: dart format --output=none --set-exit-if-changed lib test example/lib
 
       - name: Analyze Core SDK
-        run: flutter analyze
+        run: flutter analyze lib test example/lib
 
       - name: Test Core SDK
         run: flutter test
