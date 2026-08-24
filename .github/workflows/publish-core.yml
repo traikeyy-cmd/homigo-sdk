@@ -1,0 +1,17 @@
+name: Publish HomiGo SDK
+
+on:
+  push:
+    tags:
+      - 'homigo_sdk-v[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish Core SDK to pub.dev
+    permissions:
+      contents: read
+      id-token: write
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1

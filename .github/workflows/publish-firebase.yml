@@ -1,0 +1,42 @@
+name: Publish HomiGo SDK Firebase
+
+on:
+  push:
+    tags:
+      - 'homigo_sdk_firebase-v[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish Firebase SDK to pub.dev
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Dart and pub.dev authentication
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
+
+      - name: Setup Flutter
+        uses: flutter-actions/setup-flutter@18c66a64fb6f6d3338c63cabbc5cd6da395e7f1d
+
+      - name: Prepare Firebase package publication
+        run: mv .pubignore .pubignore.core
+
+      - name: Get Firebase package dependencies
+        working-directory: packages/homigo_sdk_firebase
+        run: dart pub get
+
+      - name: Validate Firebase package publication
+        working-directory: packages/homigo_sdk_firebase
+        run: dart pub publish --dry-run
+
+      - name: Publish Firebase package to pub.dev
+        working-directory: packages/homigo_sdk_firebase
+        run: dart pub publish --force
