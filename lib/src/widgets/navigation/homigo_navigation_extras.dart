@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
-import '../../design_system/liquid/homigo_liquid_surface.dart';
+import '../../design_system/native/homigo_native_surface.dart';
 import '../../platform/system_ui/homigo_insets.dart';
 import '../cards/homigo_glass_card.dart';
 
@@ -32,7 +32,7 @@ class HomiGoAppBar extends StatelessWidget implements PreferredSizeWidget {
     final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
 
-    Widget toolbar = HomiGoLiquidSurface(
+    Widget toolbar = HomiGoNativeSurface(
       borderRadius: 0,
       tintColor: brand.primaryColor,
       tintStrength: 0.012,

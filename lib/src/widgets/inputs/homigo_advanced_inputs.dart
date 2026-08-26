@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
-import '../../design_system/liquid/homigo_liquid_surface.dart';
+import '../../design_system/native/homigo_native_surface.dart';
 import '../buttons/homigo_button.dart';
 import '../cards/homigo_glass_card.dart';
 import 'homigo_dropdown.dart';
@@ -66,7 +66,7 @@ class HomiGoSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     final brand = HomiGoSDK.config.brand;
 
-    return HomiGoLiquidSurface(
+    return HomiGoNativeSurface(
       borderRadius: 18,
       tintColor: brand.primaryColor,
       tintStrength: 0.018,
@@ -112,7 +112,7 @@ class HomiGoRangeSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     final brand = HomiGoSDK.config.brand;
 
-    return HomiGoLiquidSurface(
+    return HomiGoNativeSurface(
       borderRadius: 18,
       tintColor: brand.primaryColor,
       tintStrength: 0.018,
@@ -179,7 +179,7 @@ class HomiGoNumberField extends StatelessWidget {
           Text(label!, style: theme.textTheme.labelMedium),
           const SizedBox(height: 6),
         ],
-        HomiGoLiquidSurface(
+        HomiGoNativeSurface(
           borderRadius: brand.borderRadius,
           tintColor: brand.primaryColor,
           tintStrength: 0.025,
@@ -225,7 +225,7 @@ class _NumberButton extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(14),
-        child: HomiGoLiquidSurface(
+        child: HomiGoNativeSurface(
           width: 42,
           height: 42,
           borderRadius: 14,

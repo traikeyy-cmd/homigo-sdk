@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
-import '../../design_system/liquid/homigo_liquid_surface.dart';
+import '../../design_system/native/homigo_native_surface.dart';
 import '../cards/homigo_glass_card.dart';
 
 class HomiGoIconButton extends StatelessWidget {
@@ -31,7 +31,7 @@ class HomiGoIconButton extends StatelessWidget {
       child: InkWell(
         onTap: onPressed,
         borderRadius: BorderRadius.circular(15),
-        child: HomiGoLiquidSurface(
+        child: HomiGoNativeSurface(
           width: size,
           height: size,
           borderRadius: 15,
@@ -84,7 +84,7 @@ class HomiGoFloatingActionButton extends StatelessWidget {
       child: InkWell(
         onTap: onPressed,
         borderRadius: BorderRadius.circular(999),
-        child: HomiGoLiquidSurface(
+        child: HomiGoNativeSurface(
           width: size,
           height: size,
           borderRadius: 999,
@@ -165,7 +165,7 @@ class HomiGoMenu extends StatelessWidget {
               child: InkWell(
                 onTap: items[i].onTap,
                 borderRadius: BorderRadius.circular(14),
-                child: HomiGoLiquidSurface(
+                child: HomiGoNativeSurface(
                   borderRadius: 14,
                   tintColor: brand.primaryColor,
                   tintStrength: 0.015,
@@ -265,7 +265,7 @@ class _HomiGoPopupMenuState<T> extends State<HomiGoPopupMenu<T>> {
         return PopupMenuItem<T>(
           value: item.value,
           padding: EdgeInsets.zero,
-          child: HomiGoLiquidSurface(
+          child: HomiGoNativeSurface(
             borderRadius: 14,
             tintColor: brand.primaryColor,
             tintStrength: 0.028,

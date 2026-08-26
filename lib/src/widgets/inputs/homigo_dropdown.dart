@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
-import '../../design_system/liquid/homigo_liquid_surface.dart';
+import '../../design_system/native/homigo_native_surface.dart';
 import '../cards/homigo_glass_card.dart';
 
 @immutable
@@ -83,7 +83,7 @@ class HomiGoDropdown<T> extends StatelessWidget {
             ),
             splashColor: brand.primaryColor.withValues(alpha: 0.025),
             highlightColor: Colors.transparent,
-            child: HomiGoLiquidSurface(
+            child: HomiGoNativeSurface(
               borderRadius: borderRadius ?? brand.borderRadius,
               tintColor: brand.primaryColor,
               tintStrength: 0.030,
@@ -178,7 +178,7 @@ class HomiGoDropdown<T> extends StatelessWidget {
                               Navigator.of(sheetContext).pop(item.value);
                             },
                             borderRadius: BorderRadius.circular(16),
-                            child: HomiGoLiquidSurface(
+                            child: HomiGoNativeSurface(
                               borderRadius: 16,
                               tintColor: brand.primaryColor,
                               selected: isSelected,

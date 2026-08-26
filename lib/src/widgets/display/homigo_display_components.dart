@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
-import '../../design_system/liquid/homigo_liquid_surface.dart';
+import '../../design_system/native/homigo_native_surface.dart';
 import '../../design_system/tokens/homigo_colors.dart';
 import '../cards/homigo_glass_card.dart';
 
@@ -34,7 +34,7 @@ class HomiGoListTile extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
-        child: HomiGoLiquidSurface(
+        child: HomiGoNativeSurface(
           borderRadius: 16,
           tintColor: brand.primaryColor,
           selected: selected,
@@ -137,7 +137,7 @@ class HomiGoChip extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(999),
-        child: HomiGoLiquidSurface(
+        child: HomiGoNativeSurface(
           borderRadius: 999,
           tintColor: tint,
           selected: selected,
@@ -188,7 +188,7 @@ class HomiGoBadge extends StatelessWidget {
 
     final tint = tintColor ?? brand.primaryColor;
 
-    final badge = HomiGoLiquidSurface(
+    final badge = HomiGoNativeSurface(
       borderRadius: 999,
       tintColor: tint,
       tintStrength: 0.09,
@@ -241,7 +241,7 @@ class HomiGoAvatar extends StatelessWidget {
     final tint = tintColor ?? brand.primaryColor;
     final size = radius * 2;
 
-    return HomiGoLiquidSurface(
+    return HomiGoNativeSurface(
       width: size,
       height: size,
       borderRadius: 999,
@@ -292,7 +292,7 @@ class HomiGoStatusBadge extends StatelessWidget {
       HomiGoStatus.neutral => theme.textTheme.bodySmall?.color ?? Colors.grey,
     };
 
-    return HomiGoLiquidSurface(
+    return HomiGoNativeSurface(
       borderRadius: 999,
       tintColor: color,
       tintStrength: 0.075,

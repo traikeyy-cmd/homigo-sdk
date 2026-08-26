@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
-import '../../design_system/liquid/homigo_liquid_surface.dart';
+import '../../design_system/native/homigo_native_surface.dart';
 
 class HomiGoProgressBar extends StatelessWidget {
   final double value;
@@ -21,7 +21,7 @@ class HomiGoProgressBar extends StatelessWidget {
     final tint = tintColor ?? brand.primaryColor;
     final progress = value.clamp(0.0, 1.0);
 
-    return HomiGoLiquidSurface(
+    return HomiGoNativeSurface(
       height: height,
       borderRadius: 999,
       tintColor: tint,
@@ -73,7 +73,7 @@ class HomiGoCircularProgress extends StatelessWidget {
     final brand = HomiGoSDK.config.brand;
     final tint = tintColor ?? brand.primaryColor;
 
-    return HomiGoLiquidSurface(
+    return HomiGoNativeSurface(
       width: size,
       height: size,
       borderRadius: 999,
@@ -148,7 +148,7 @@ class HomiGoStepper extends StatelessWidget {
                             ? null
                             : () => onStepTapped!(index),
                         borderRadius: BorderRadius.circular(999),
-                        child: HomiGoLiquidSurface(
+                        child: HomiGoNativeSurface(
                           width: 36,
                           height: 36,
                           borderRadius: 999,

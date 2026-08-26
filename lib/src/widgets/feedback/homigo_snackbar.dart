@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
-import '../../design_system/liquid/homigo_liquid_surface.dart';
+import '../../design_system/native/homigo_native_surface.dart';
 import '../../design_system/tokens/homigo_colors.dart';
 
 enum HomiGoSnackBarVariant { info, success, warning, error }
@@ -44,7 +44,7 @@ abstract final class HomiGoSnackBar {
         behavior: SnackBarBehavior.floating,
         padding: EdgeInsets.zero,
         margin: const EdgeInsets.all(16),
-        content: HomiGoLiquidSurface(
+        content: HomiGoNativeSurface(
           borderRadius: 18,
           tintColor: tintColor,
           tintStrength: 0.085,

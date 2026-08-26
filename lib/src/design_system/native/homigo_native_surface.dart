@@ -5,7 +5,7 @@ import '../tokens/homigo_colors.dart';
 
 /// السطح الأساسي الحديث في HomiGo SDK.
 ///
-/// مصمم ليكون خفيفًا وسريعًا:
+/// خفيف وسريع:
 /// - بدون BackdropFilter
 /// - بدون ImageFilter.blur
 /// - بدون Glass / Liquid effects
@@ -13,8 +13,8 @@ import '../tokens/homigo_colors.dart';
 /// - Border خفيف
 /// - Shadow بسيط
 ///
-/// سيكون الأساس الجديد للبطاقات والأزرار وعناصر الاختيار
-/// وبقية مكونات HomiGo Native UI.
+/// يدعم [tintColor] و [tintStrength] كـ Solid color blend
+/// للمحافظة على مرونة المكونات القديمة أثناء الانتقال إلى Native UI.
 class HomiGoNativeSurface extends StatelessWidget {
   final Widget child;
 
@@ -27,6 +27,15 @@ class HomiGoNativeSurface extends StatelessWidget {
 
   final Color? backgroundColor;
   final Color? borderColor;
+
+  /// لون Accent اختياري.
+  ///
+  /// لا يستخدم Glass أو Blur.
+  /// يتم دمجه مباشرة مع لون السطح.
+  final Color? tintColor;
+
+  /// قوة الـSolid tint من 0 إلى 1.
+  final double tintStrength;
 
   /// إذا كان العنصر محددًا أو نشطًا.
   final bool selected;
@@ -46,10 +55,12 @@ class HomiGoNativeSurface extends StatelessWidget {
     this.borderRadius,
     this.backgroundColor,
     this.borderColor,
+    this.tintColor,
+    this.tintStrength = 0.0,
     this.selected = false,
     this.enabled = true,
     this.elevated = true,
-  });
+  }) : assert(tintStrength >= 0 && tintStrength <= 1);
 
   @override
   Widget build(BuildContext context) {
@@ -68,15 +79,28 @@ class HomiGoNativeSurface extends StatelessWidget {
         borderColor ??
         (isDark ? HomiGoColors.darkBorder : HomiGoColors.lightBorder);
 
-    final effectiveBackground = selected
+    final tint = tintColor ?? brand.primaryColor;
+
+    final requestedTint = (selected ? tintStrength * 1.35 : tintStrength)
+        .clamp(0.0, 1.0)
+        .toDouble();
+
+    // يحافظ على سلوك selected الحالي حتى عند عدم تمرير tintStrength.
+    final selectedFloor = selected ? (isDark ? 0.14 : 0.06) : 0.0;
+
+    final effectiveTintStrength = requestedTint < selectedFloor
+        ? selectedFloor
+        : requestedTint;
+
+    final effectiveBackground = effectiveTintStrength > 0
         ? Color.alphaBlend(
-            brand.primaryColor.withValues(alpha: isDark ? 0.14 : 0.06),
+            tint.withValues(alpha: effectiveTintStrength),
             baseSurface,
           )
         : baseSurface;
 
     final effectiveBorder = selected
-        ? brand.primaryColor.withValues(alpha: isDark ? 0.34 : 0.18)
+        ? tint.withValues(alpha: isDark ? 0.34 : 0.18)
         : baseBorder;
 
     return AnimatedOpacity(
