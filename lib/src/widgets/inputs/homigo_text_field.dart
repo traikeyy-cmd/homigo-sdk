@@ -2,8 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
-import '../../design_system/liquid/homigo_liquid_surface.dart';
+import '../../design_system/native/homigo_native_surface.dart';
 import '../../design_system/tokens/homigo_colors.dart';
+
+/// أحجام حقول الإدخال في HomiGo Native UI.
+enum HomiGoFieldSize {
+  /// للحقول الصغيرة أو المدمجة.
+  compact,
+
+  /// الحجم الطبيعي لمعظم الحقول مثل الاسم والجوال والبريد.
+  standard,
+
+  /// للحقول التي تحتاج حضورًا بصريًا أكبر.
+  large,
+}
 
 class HomiGoTextField extends StatefulWidget {
   final TextEditingController? controller;
@@ -38,6 +50,12 @@ class HomiGoTextField extends StatefulWidget {
 
   final double? borderRadius;
 
+  /// الحجم المرئي للحقل.
+  ///
+  /// الافتراضي [HomiGoFieldSize.standard] للحفاظ على التوافق
+  /// مع التطبيقات الحالية.
+  final HomiGoFieldSize size;
+
   const HomiGoTextField({
     super.key,
     this.controller,
@@ -63,10 +81,13 @@ class HomiGoTextField extends StatefulWidget {
     this.maxLength,
     this.inputFormatters,
     this.borderRadius,
+    this.size = HomiGoFieldSize.standard,
   }) : assert(
          controller == null || initialValue == null,
          'controller and initialValue cannot be used together.',
-       );
+       ),
+       assert(minLines > 0),
+       assert(maxLines >= minLines);
 
   @override
   State<HomiGoTextField> createState() => _HomiGoTextFieldState();
@@ -112,6 +133,35 @@ class _HomiGoTextFieldState extends State<HomiGoTextField> {
     }
   }
 
+  EdgeInsetsGeometry get _contentPadding {
+    if (widget.maxLines > 1 || widget.minLines > 1) {
+      return const EdgeInsets.symmetric(horizontal: 16, vertical: 14);
+    }
+
+    return switch (widget.size) {
+      HomiGoFieldSize.compact => const EdgeInsets.symmetric(
+        horizontal: 14,
+        vertical: 11,
+      ),
+      HomiGoFieldSize.standard => const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 15,
+      ),
+      HomiGoFieldSize.large => const EdgeInsets.symmetric(
+        horizontal: 18,
+        vertical: 18,
+      ),
+    };
+  }
+
+  double get _iconSize {
+    return switch (widget.size) {
+      HomiGoFieldSize.compact => 19,
+      HomiGoFieldSize.standard => 21,
+      HomiGoFieldSize.large => 23,
+    };
+  }
+
   @override
   void dispose() {
     _focusNode.removeListener(_handleFocus);
@@ -128,29 +178,40 @@ class _HomiGoTextFieldState extends State<HomiGoTextField> {
     final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
 
+    final isDark = theme.brightness == Brightness.dark;
     final hasError = widget.errorText != null;
 
-    final tintColor = hasError ? HomiGoColors.error : brand.primaryColor;
+    final accentColor = hasError ? HomiGoColors.error : brand.primaryColor;
+
+    final idleBorder = isDark
+        ? HomiGoColors.darkBorder
+        : HomiGoColors.lightBorder;
+
+    final effectiveBorderColor = hasError
+        ? HomiGoColors.error.withValues(alpha: 0.72)
+        : _focused
+        ? brand.primaryColor.withValues(alpha: 0.68)
+        : idleBorder;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (widget.label != null) ...[
           Padding(
-            padding: const EdgeInsetsDirectional.only(start: 4, bottom: 6),
-            child: Text(widget.label!, style: theme.textTheme.labelMedium),
+            padding: const EdgeInsetsDirectional.only(start: 4, bottom: 7),
+            child: Text(
+              widget.label!,
+              style: theme.textTheme.labelMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
         ],
-        HomiGoLiquidSurface(
+        HomiGoNativeSurface(
           borderRadius: widget.borderRadius ?? brand.borderRadius,
-          tintColor: tintColor,
-          tintStrength: hasError
-              ? 0.085
-              : _focused
-              ? 0.070
-              : 0.028,
-          selected: _focused || hasError,
+          borderColor: effectiveBorderColor,
           enabled: widget.enabled,
+          elevated: false,
           padding: EdgeInsets.zero,
           child: TextFormField(
             controller: widget.controller,
@@ -170,21 +231,21 @@ class _HomiGoTextFieldState extends State<HomiGoTextField> {
             maxLines: widget.obscureText ? 1 : widget.maxLines,
             maxLength: widget.maxLength,
             inputFormatters: widget.inputFormatters,
-            cursorColor: tintColor,
+            cursorColor: accentColor,
             decoration: InputDecoration(
               hintText: widget.hintText,
               errorText: widget.errorText,
               filled: false,
               isDense: true,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 15,
-              ),
+              contentPadding: _contentPadding,
               prefixIcon: widget.prefixIcon == null
                   ? null
                   : Icon(
                       widget.prefixIcon,
-                      color: tintColor.withValues(alpha: _focused ? 1.0 : 0.72),
+                      size: _iconSize,
+                      color: accentColor.withValues(
+                        alpha: _focused ? 1.0 : 0.68,
+                      ),
                     ),
               suffixIcon: widget.suffix,
               border: InputBorder.none,

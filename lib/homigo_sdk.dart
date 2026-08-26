@@ -58,6 +58,9 @@ export 'src/design_system/tokens/homigo_typography.dart';
 // Theme
 export 'src/design_system/theme/homigo_theme.dart';
 
+// Design System - Native
+export 'src/design_system/native/homigo_native_surface.dart';
+
 // Design System - Liquid
 export 'src/design_system/liquid/homigo_liquid_surface.dart';
 
@@ -75,11 +78,13 @@ export 'src/widgets/inputs/homigo_advanced_inputs.dart';
 // Widgets - Selection
 export 'src/widgets/selection/homigo_liquid_segmented_control.dart';
 export 'src/widgets/selection/homigo_liquid_controls.dart';
+export 'src/widgets/selection/homigo_agreement_tile.dart';
 export 'src/widgets/selection/homigo_tabs.dart';
 
 // Widgets - Navigation
 export 'src/widgets/navigation/homigo_navigation_bar.dart';
 export 'src/widgets/navigation/homigo_navigation_extras.dart';
+export 'src/widgets/navigation/homigo_back_button.dart';
 
 // Widgets - Overlays
 export 'src/widgets/overlays/homigo_bottom_sheet.dart';
@@ -91,6 +96,7 @@ export 'src/widgets/feedback/homigo_states.dart';
 
 // Widgets - Display
 export 'src/widgets/display/homigo_display_components.dart';
+export 'src/widgets/display/homigo_elevated_icon.dart';
 
 // Widgets - Actions
 export 'src/widgets/actions/homigo_action_components.dart';
