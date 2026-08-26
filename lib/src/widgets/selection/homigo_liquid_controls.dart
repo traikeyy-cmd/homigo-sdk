@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
-import '../../design_system/liquid/homigo_liquid_surface.dart';
+import '../../design_system/tokens/homigo_colors.dart';
 
 class HomiGoCheckbox extends StatelessWidget {
   final bool value;
@@ -20,6 +20,11 @@ class HomiGoCheckbox extends StatelessWidget {
     final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
     final enabled = onChanged != null;
+    final isDark = theme.brightness == Brightness.dark;
+
+    final idleBorder = isDark
+        ? HomiGoColors.darkBorder
+        : HomiGoColors.lightBorder;
 
     return Material(
       color: Colors.transparent,
@@ -31,23 +36,28 @@ class HomiGoCheckbox extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              HomiGoLiquidSurface(
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 160),
+                curve: Curves.easeOutCubic,
                 width: 28,
                 height: 28,
-                borderRadius: 9,
-                tintColor: brand.primaryColor,
-                selected: value,
-                tintStrength: value ? 0.12 : 0.025,
-                padding: EdgeInsets.zero,
+                decoration: BoxDecoration(
+                  color: value ? brand.primaryColor : Colors.transparent,
+                  borderRadius: BorderRadius.circular(9),
+                  border: Border.all(
+                    color: value ? brand.primaryColor : idleBorder,
+                    width: 1.4,
+                  ),
+                ),
                 child: Center(
                   child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 160),
+                    duration: const Duration(milliseconds: 150),
                     child: value
-                        ? Icon(
+                        ? const Icon(
                             Icons.check_rounded,
-                            key: const ValueKey('checked'),
+                            key: ValueKey('checked'),
                             size: 18,
-                            color: brand.primaryColor,
+                            color: Colors.white,
                           )
                         : const SizedBox(key: ValueKey('unchecked')),
                   ),
@@ -87,6 +97,15 @@ class HomiGoSwitch extends StatelessWidget {
     final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
     final enabled = onChanged != null;
+    final isDark = theme.brightness == Brightness.dark;
+
+    final idleBackground = isDark
+        ? HomiGoColors.darkSurfaceVariant
+        : HomiGoColors.lightSurfaceVariant;
+
+    final idleBorder = isDark
+        ? HomiGoColors.darkBorder
+        : HomiGoColors.lightBorder;
 
     return Material(
       color: Colors.transparent,
@@ -96,30 +115,37 @@ class HomiGoSwitch extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            HomiGoLiquidSurface(
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              curve: Curves.easeOutCubic,
               width: 54,
               height: 32,
-              borderRadius: 999,
-              tintColor: brand.primaryColor,
-              selected: value,
-              tintStrength: value ? 0.105 : 0.018,
               padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: value ? brand.primaryColor : idleBackground,
+                borderRadius: BorderRadius.circular(999),
+                border: Border.all(
+                  color: value
+                      ? brand.primaryColor.withValues(alpha: 0.75)
+                      : idleBorder,
+                ),
+              ),
               child: AnimatedAlign(
                 duration: const Duration(milliseconds: 180),
-                curve: Curves.easeOut,
-                alignment: value ? Alignment.centerRight : Alignment.centerLeft,
+                curve: Curves.easeOutCubic,
+                alignment: value
+                    ? AlignmentDirectional.centerEnd
+                    : AlignmentDirectional.centerStart,
                 child: Container(
                   width: 24,
                   height: 24,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: value
-                        ? brand.primaryColor.withValues(alpha: 0.88)
-                        : theme.colorScheme.surface.withValues(alpha: 0.88),
+                    color: Colors.white,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.10),
-                        blurRadius: 6,
+                        blurRadius: 5,
                         offset: const Offset(0, 2),
                       ),
                     ],
@@ -164,6 +190,11 @@ class HomiGoRadio<T> extends StatelessWidget {
 
     final selected = value == groupValue;
     final enabled = onChanged != null;
+    final isDark = theme.brightness == Brightness.dark;
+
+    final idleBorder = isDark
+        ? HomiGoColors.darkBorder
+        : HomiGoColors.lightBorder;
 
     return Material(
       color: Colors.transparent,
@@ -175,19 +206,24 @@ class HomiGoRadio<T> extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              HomiGoLiquidSurface(
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 160),
                 width: 28,
                 height: 28,
-                borderRadius: 999,
-                tintColor: brand.primaryColor,
-                selected: selected,
-                tintStrength: selected ? 0.12 : 0.025,
-                padding: EdgeInsets.zero,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.transparent,
+                  border: Border.all(
+                    color: selected ? brand.primaryColor : idleBorder,
+                    width: selected ? 1.8 : 1.4,
+                  ),
+                ),
                 child: Center(
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 160),
-                    width: selected ? 11 : 0,
-                    height: selected ? 11 : 0,
+                    curve: Curves.easeOutCubic,
+                    width: selected ? 12 : 0,
+                    height: selected ? 12 : 0,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: brand.primaryColor,

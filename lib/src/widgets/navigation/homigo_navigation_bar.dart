@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
-import '../../design_system/liquid/homigo_liquid_surface.dart';
+import '../../design_system/tokens/homigo_colors.dart';
 import '../../platform/system_ui/homigo_insets.dart';
 import '../cards/homigo_glass_card.dart';
 
@@ -18,6 +18,9 @@ class HomiGoNavigationItem {
   });
 }
 
+/// شريط التنقل السفلي في HomiGo Native UI.
+///
+/// يحافظ على نفس API السابق لكن بدون Liquid / Glass داخل العناصر.
 class HomiGoNavigationBar extends StatelessWidget {
   final List<HomiGoNavigationItem> items;
   final int selectedIndex;
@@ -34,60 +37,92 @@ class HomiGoNavigationBar extends StatelessWidget {
     required this.onDestinationSelected,
     this.margin = const EdgeInsets.fromLTRB(12, 0, 12, 12),
     this.respectBottomInset = true,
-  }) : assert(items.length >= 2);
+  }) : assert(items.length >= 2),
+       assert(selectedIndex >= 0),
+       assert(selectedIndex < items.length);
 
   @override
   Widget build(BuildContext context) {
     final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
 
+    final isDark = theme.brightness == Brightness.dark;
+
+    final inactiveColor = isDark
+        ? HomiGoColors.darkTextSecondary
+        : HomiGoColors.lightTextSecondary;
+
     Widget bar = HomiGoGlassCard(
       margin: margin,
-      borderRadius: 24,
+      borderRadius: 22,
       padding: const EdgeInsets.all(6),
       child: Row(
         children: List.generate(items.length, (index) {
           final item = items[index];
           final selected = index == selectedIndex;
 
-          final color = selected
-              ? brand.primaryColor
-              : theme.textTheme.bodySmall?.color;
-
           return Expanded(
             child: Material(
               color: Colors.transparent,
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(16),
               child: InkWell(
                 onTap: () => onDestinationSelected(index),
-                borderRadius: BorderRadius.circular(18),
-                child: HomiGoLiquidSurface(
-                  borderRadius: 18,
-                  tintColor: brand.primaryColor,
-                  selected: selected,
-                  tintStrength: selected ? 0.09 : 0.0,
+                borderRadius: BorderRadius.circular(16),
+                splashColor: brand.primaryColor.withValues(alpha: 0.06),
+                highlightColor: Colors.transparent,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 180),
+                  curve: Curves.easeOutCubic,
                   padding: const EdgeInsets.symmetric(
                     vertical: 9,
                     horizontal: 4,
                   ),
+                  decoration: BoxDecoration(
+                    color: selected
+                        ? brand.primaryColor.withValues(
+                            alpha: isDark ? 0.18 : 0.09,
+                          )
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        selected ? item.activeIcon ?? item.icon : item.icon,
-                        size: 22,
-                        color: color,
+                      AnimatedScale(
+                        scale: selected ? 1.06 : 1.0,
+                        duration: const Duration(milliseconds: 180),
+                        curve: Curves.easeOutCubic,
+                        child: Icon(
+                          selected ? item.activeIcon ?? item.icon : item.icon,
+                          size: 22,
+                          color: selected ? brand.primaryColor : inactiveColor,
+                        ),
                       ),
                       const SizedBox(height: 4),
-                      Text(
-                        item.label,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.labelMedium?.copyWith(
-                          color: color,
-                          fontWeight: selected
-                              ? FontWeight.w700
-                              : FontWeight.w500,
+                      AnimatedDefaultTextStyle(
+                        duration: const Duration(milliseconds: 180),
+                        curve: Curves.easeOutCubic,
+                        style:
+                            theme.textTheme.labelMedium?.copyWith(
+                              color: selected
+                                  ? brand.primaryColor
+                                  : inactiveColor,
+                              fontWeight: selected
+                                  ? FontWeight.w700
+                                  : FontWeight.w500,
+                            ) ??
+                            TextStyle(
+                              color: selected
+                                  ? brand.primaryColor
+                                  : inactiveColor,
+                              fontWeight: selected
+                                  ? FontWeight.w700
+                                  : FontWeight.w500,
+                            ),
+                        child: Text(
+                          item.label,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],

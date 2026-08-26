@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
-import '../../design_system/liquid/homigo_liquid_surface.dart';
+import '../../design_system/native/homigo_native_surface.dart';
 import '../../design_system/tokens/homigo_colors.dart';
 import '../../design_system/tokens/homigo_typography.dart';
 
@@ -11,15 +11,12 @@ enum HomiGoButtonVariant { primary, secondary, outline, ghost, danger }
 /// حجم الزر.
 enum HomiGoButtonSize { small, medium, large }
 
-/// زر مائي موحد لجميع التطبيقات التي تستخدم HomiGo SDK.
+/// زر HomiGo الموحد بنظام Native UI.
 ///
-/// لا يستخدم خلفيات مصمتة أو Border تقليدي.
-/// يعتمد على HomiGoLiquidSurface لإظهار:
-/// - Water Glass
-/// - Tint خفيف
-/// - حواف محفورة
-/// - انعكاسات ضوئية
-/// - استجابة مائية عند الضغط
+/// - بدون Glass أو Blur.
+/// - يحافظ على نفس API الإصدارات السابقة.
+/// - يدعم حالات الضغط والتحميل والتعطيل.
+/// - يحتوي على Micro Animation خفيفة عند الضغط.
 class HomiGoButton extends StatefulWidget {
   final String text;
   final VoidCallback? onPressed;
@@ -59,6 +56,16 @@ class _HomiGoButtonState extends State<HomiGoButton> {
 
   bool get _enabled => widget.onPressed != null && !widget.isLoading;
 
+  void _setPressed(bool value) {
+    if (_pressed == value || !mounted) {
+      return;
+    }
+
+    setState(() {
+      _pressed = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final brand = HomiGoSDK.config.brand;
@@ -83,12 +90,18 @@ class _HomiGoButtonState extends State<HomiGoButton> {
       ),
     };
 
-    final tintColor = _tintColor();
+    final radius = widget.borderRadius ?? brand.borderRadius;
+
+    final backgroundColor = _backgroundColor(context);
+    final borderColor = _borderColor(context);
     final foregroundColor = _foregroundColor(context);
 
-    final tintStrength = _tintStrength();
-
-    final radius = widget.borderRadius ?? brand.borderRadius;
+    final filled = switch (widget.variant) {
+      HomiGoButtonVariant.primary ||
+      HomiGoButtonVariant.secondary ||
+      HomiGoButtonVariant.danger => true,
+      HomiGoButtonVariant.outline || HomiGoButtonVariant.ghost => false,
+    };
 
     final buttonContent = _ButtonContent(
       text: widget.text,
@@ -100,68 +113,61 @@ class _HomiGoButtonState extends State<HomiGoButton> {
       textStyle: textStyle,
     );
 
-    final liquidButton = HomiGoLiquidSurface(
-      width: widget.fullWidth ? double.infinity : null,
-      height: height,
-      borderRadius: radius,
-      tintColor: tintColor,
-      tintStrength: _pressed ? tintStrength * 1.35 : tintStrength,
-      selected: _pressed,
-      enabled: true,
-      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-      child: Center(
-        child: AnimatedOpacity(
-          duration: const Duration(milliseconds: 140),
-          opacity: _enabled ? 1.0 : 0.46,
-          child: buttonContent,
-        ),
-      ),
-    );
-
-    return AnimatedScale(
-      scale: _pressed ? 0.985 : 1.0,
-      duration: const Duration(milliseconds: 110),
-      curve: Curves.easeOut,
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(radius),
-        child: InkWell(
+    return Semantics(
+      button: true,
+      enabled: _enabled,
+      child: AnimatedScale(
+        scale: _pressed ? 0.98 : 1.0,
+        duration: const Duration(milliseconds: 150),
+        curve: Curves.easeOutCubic,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTapDown: _enabled ? (_) => _setPressed(true) : null,
+          onTapUp: _enabled ? (_) => _setPressed(false) : null,
+          onTapCancel: _enabled ? () => _setPressed(false) : null,
           onTap: _enabled ? widget.onPressed : null,
-          onHighlightChanged: _enabled
-              ? (pressed) {
-                  setState(() {
-                    _pressed = pressed;
-                  });
-                }
-              : null,
-          splashColor: tintColor.withValues(alpha: 0.035),
-          highlightColor: Colors.transparent,
-          borderRadius: BorderRadius.circular(radius),
-          child: liquidButton,
+          child: HomiGoNativeSurface(
+            width: widget.fullWidth ? double.infinity : null,
+            height: height,
+            borderRadius: radius,
+            backgroundColor: backgroundColor,
+            borderColor: borderColor,
+            enabled: _enabled || widget.isLoading,
+            elevated: filled,
+            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+            child: Center(child: buttonContent),
+          ),
         ),
       ),
     );
   }
 
-  Color _tintColor() {
+  Color _backgroundColor(BuildContext context) {
+    final brand = HomiGoSDK.config.brand;
+    final theme = Theme.of(context);
+
+    final surface = theme.brightness == Brightness.dark
+        ? HomiGoColors.darkSurface
+        : HomiGoColors.lightSurface;
+
+    return switch (widget.variant) {
+      HomiGoButtonVariant.primary => brand.primaryColor,
+      HomiGoButtonVariant.secondary => brand.secondaryColor,
+      HomiGoButtonVariant.outline => surface,
+      HomiGoButtonVariant.ghost => Colors.transparent,
+      HomiGoButtonVariant.danger => HomiGoColors.error,
+    };
+  }
+
+  Color _borderColor(BuildContext context) {
     final brand = HomiGoSDK.config.brand;
 
     return switch (widget.variant) {
       HomiGoButtonVariant.primary => brand.primaryColor,
       HomiGoButtonVariant.secondary => brand.secondaryColor,
-      HomiGoButtonVariant.outline => brand.primaryColor,
-      HomiGoButtonVariant.ghost => brand.primaryColor,
+      HomiGoButtonVariant.outline => brand.primaryColor.withValues(alpha: 0.45),
+      HomiGoButtonVariant.ghost => Colors.transparent,
       HomiGoButtonVariant.danger => HomiGoColors.error,
-    };
-  }
-
-  double _tintStrength() {
-    return switch (widget.variant) {
-      HomiGoButtonVariant.primary => 0.12,
-      HomiGoButtonVariant.secondary => 0.11,
-      HomiGoButtonVariant.outline => 0.060,
-      HomiGoButtonVariant.ghost => 0.025,
-      HomiGoButtonVariant.danger => 0.10,
     };
   }
 
@@ -174,11 +180,11 @@ class _HomiGoButtonState extends State<HomiGoButton> {
         : HomiGoColors.lightTextPrimary;
 
     return switch (widget.variant) {
-      HomiGoButtonVariant.primary => brand.primaryColor,
-      HomiGoButtonVariant.secondary => brand.secondaryColor,
+      HomiGoButtonVariant.primary => Colors.white,
+      HomiGoButtonVariant.secondary => Colors.white,
       HomiGoButtonVariant.outline => brand.primaryColor,
       HomiGoButtonVariant.ghost => normalText,
-      HomiGoButtonVariant.danger => HomiGoColors.error,
+      HomiGoButtonVariant.danger => Colors.white,
     };
   }
 }

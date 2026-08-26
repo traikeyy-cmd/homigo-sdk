@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
-import '../../design_system/liquid/homigo_liquid_surface.dart';
+import '../../design_system/native/homigo_native_surface.dart';
 
-/// بطاقة زجاجية مائية موحدة ضمن HomiGo SDK.
+/// بطاقة HomiGo الموحدة.
 ///
-/// تعتمد على HomiGo Liquid Surface بدل الحدود التقليدية.
-/// الحواف تظهر كتشكيل/حفر ضوئي داخل السطح وليس Border مرسوم.
-class HomiGoGlassCard extends StatelessWidget {
+/// الاسم [HomiGoGlassCard] محفوظ للتوافق مع التطبيقات الحالية،
+/// لكن التنفيذ الداخلي أصبح Native UI بدون Glass أو Blur.
+class HomiGoGlassCard extends StatefulWidget {
   final Widget child;
 
   final EdgeInsetsGeometry? padding;
@@ -17,17 +17,18 @@ class HomiGoGlassCard extends StatelessWidget {
   final double? height;
 
   final double? borderRadius;
+
+  /// محفوظ للتوافق مع الإصدارات السابقة.
+  ///
+  /// لم يعد مستخدمًا في Native UI.
   final double? blur;
+
+  /// محفوظ للتوافق مع الإصدارات السابقة.
+  ///
+  /// لم يعد يتحكم في Glass opacity.
   final double? opacity;
 
-  /// يحتفظ به للتوافق مع الإصدارات السابقة.
-  ///
-  /// في نظام Liquid الجديد يستخدم كلون Tint وليس كخلفية مصمتة.
   final Color? backgroundColor;
-
-  /// محتفظ به للتوافق مع الإصدارات السابقة.
-  ///
-  /// لا يتم رسم Border تقليدي في نظام Liquid.
   final Color? borderColor;
 
   final VoidCallback? onTap;
@@ -55,47 +56,63 @@ class HomiGoGlassCard extends StatelessWidget {
   });
 
   @override
+  State<HomiGoGlassCard> createState() => _HomiGoGlassCardState();
+}
+
+class _HomiGoGlassCardState extends State<HomiGoGlassCard> {
+  bool _pressed = false;
+
+  bool get _interactive => widget.enabled && widget.onTap != null;
+
+  void _setPressed(bool value) {
+    if (_pressed == value || !mounted) {
+      return;
+    }
+
+    setState(() {
+      _pressed = value;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final brand = HomiGoSDK.config.brand;
 
-    final effectiveRadius = borderRadius ?? brand.borderRadius;
+    final effectiveRadius = widget.borderRadius ?? brand.borderRadius;
 
-    final effectiveOpacity = (opacity ?? brand.glassOpacity)
-        .clamp(0.0, 1.0)
-        .toDouble();
-
-    // نحول قيمة Glass Opacity القديمة إلى Tint مائي خفيف.
-    // لا نستخدمها كخلفية مصمتة.
-    final tintStrength = 0.035 + (effectiveOpacity * 0.075);
-
-    final radius = BorderRadius.circular(effectiveRadius);
-
-    Widget content = HomiGoLiquidSurface(
-      width: width,
-      height: height,
+    Widget card = HomiGoNativeSurface(
+      width: widget.width,
+      height: widget.height,
       borderRadius: effectiveRadius,
-      blur: blur,
-      tintColor: backgroundColor,
-      tintStrength: tintStrength,
-      selected: selected,
-      enabled: enabled && brand.useGlassEffect,
-      padding: padding ?? const EdgeInsets.all(16),
-      child: child,
+      backgroundColor: widget.backgroundColor,
+      borderColor: widget.borderColor,
+      selected: widget.selected,
+      enabled: widget.enabled,
+      elevated: true,
+      padding: widget.padding ?? const EdgeInsets.all(16),
+      child: widget.child,
     );
 
-    if (onTap != null) {
-      content = Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: radius,
-          splashColor: brand.primaryColor.withValues(alpha: 0.06),
-          highlightColor: Colors.white.withValues(alpha: 0.04),
-          child: content,
+    if (_interactive) {
+      card = Semantics(
+        button: true,
+        enabled: true,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTapDown: (_) => _setPressed(true),
+          onTapUp: (_) => _setPressed(false),
+          onTapCancel: () => _setPressed(false),
+          onTap: widget.onTap,
+          child: AnimatedScale(
+            scale: _pressed ? 0.98 : 1.0,
+            duration: const Duration(milliseconds: 150),
+            curve: Curves.easeOutCubic,
+            child: card,
+          ),
         ),
       );
     }
 
-    return Container(margin: margin, child: content);
+    return Container(margin: widget.margin, child: card);
   }
 }

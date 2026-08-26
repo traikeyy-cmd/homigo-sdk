@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
-import '../../design_system/liquid/homigo_liquid_surface.dart';
+import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/tokens/homigo_colors.dart';
 import '../../design_system/tokens/homigo_typography.dart';
 
-/// عنصر واحد داخل HomiGoLiquidSegmentedControl.
+/// عنصر واحد داخل HomiGo Segmented Control.
 @immutable
 class HomiGoSegmentItem<T> {
   final T value;
@@ -18,10 +19,13 @@ class HomiGoSegmentItem<T> {
   });
 }
 
-/// اختيار مائي موحد للتبويبات والخيارات.
+/// Segmented Control موحد ضمن HomiGo Native UI.
 ///
-/// أمثلة الاستخدام:
-/// System / Light / Dark
+/// الاسم القديم محفوظ للتوافق مع التطبيقات الحالية،
+/// لكن التنفيذ الداخلي لم يعد يستخدم Liquid أو Glass.
+///
+/// أمثلة:
+/// شبكة / دوائر / خلايا
 /// يومي / أسبوعي / شهري
 /// الكل / نشط / مكتمل
 class HomiGoLiquidSegmentedControl<T> extends StatelessWidget {
@@ -55,19 +59,32 @@ class HomiGoLiquidSegmentedControl<T> extends StatelessWidget {
     final radius = borderRadius ?? brand.borderRadius;
     final effectiveTint = tintColor ?? brand.primaryColor;
 
+    final isDark = theme.brightness == Brightness.dark;
+
+    final backgroundColor = isDark
+        ? HomiGoColors.darkSurfaceVariant
+        : HomiGoColors.lightSurfaceVariant;
+
+    final borderColor = isDark
+        ? HomiGoColors.darkBorder
+        : HomiGoColors.lightBorder;
+
+    final segmentRadius = radius > 4 ? radius - 4 : 0.0;
+
     return Container(
       margin: margin,
-      child: HomiGoLiquidSurface(
+      child: HomiGoNativeSurface(
         height: height,
         borderRadius: radius,
-        tintColor: effectiveTint,
-        tintStrength: 0.018,
+        backgroundColor: backgroundColor,
+        borderColor: borderColor,
+        elevated: false,
         padding: const EdgeInsets.all(4),
         child: Row(
           children: [
             for (final item in items)
               Expanded(
-                child: _HomiGoLiquidSegment<T>(
+                child: _HomiGoNativeSegment<T>(
                   item: item,
                   selected: item.value == value,
                   onTap: () {
@@ -76,8 +93,7 @@ class HomiGoLiquidSegmentedControl<T> extends StatelessWidget {
                     }
                   },
                   tintColor: effectiveTint,
-                  radius: radius - 4,
-                  brightness: theme.brightness,
+                  radius: segmentRadius,
                 ),
               ),
           ],
@@ -87,31 +103,39 @@ class HomiGoLiquidSegmentedControl<T> extends StatelessWidget {
   }
 }
 
-class _HomiGoLiquidSegment<T> extends StatefulWidget {
+class _HomiGoNativeSegment<T> extends StatefulWidget {
   final HomiGoSegmentItem<T> item;
   final bool selected;
   final VoidCallback onTap;
 
   final Color tintColor;
   final double radius;
-  final Brightness brightness;
 
-  const _HomiGoLiquidSegment({
+  const _HomiGoNativeSegment({
     required this.item,
     required this.selected,
     required this.onTap,
     required this.tintColor,
     required this.radius,
-    required this.brightness,
   });
 
   @override
-  State<_HomiGoLiquidSegment<T>> createState() =>
-      _HomiGoLiquidSegmentState<T>();
+  State<_HomiGoNativeSegment<T>> createState() =>
+      _HomiGoNativeSegmentState<T>();
 }
 
-class _HomiGoLiquidSegmentState<T> extends State<_HomiGoLiquidSegment<T>> {
+class _HomiGoNativeSegmentState<T> extends State<_HomiGoNativeSegment<T>> {
   bool _pressed = false;
+
+  void _setPressed(bool value) {
+    if (_pressed == value || !mounted) {
+      return;
+    }
+
+    setState(() {
+      _pressed = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,81 +143,80 @@ class _HomiGoLiquidSegmentState<T> extends State<_HomiGoLiquidSegment<T>> {
 
     final selected = widget.selected;
 
-    final selectedColor = widget.tintColor;
+    final inactiveColor = theme.brightness == Brightness.dark
+        ? HomiGoColors.darkTextSecondary
+        : HomiGoColors.lightTextSecondary;
 
-    final normalColor =
-        theme.textTheme.bodyMedium?.color ??
-        (widget.brightness == Brightness.dark ? Colors.white : Colors.black87);
-
-    final foregroundColor = selected ? selectedColor : normalColor;
-
-    Widget content = Center(
-      child: AnimatedDefaultTextStyle(
-        duration: const Duration(milliseconds: 180),
-        curve: Curves.easeOut,
-        style: HomiGoTypography.labelMedium.copyWith(
-          color: foregroundColor,
-          fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (widget.item.icon != null) ...[
-              AnimatedScale(
-                duration: const Duration(milliseconds: 180),
-                scale: selected ? 1.06 : 1.0,
-                child: Icon(widget.item.icon, size: 19, color: foregroundColor),
-              ),
-              const SizedBox(width: 6),
-            ],
-            Flexible(
-              child: Text(
-                widget.item.label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-
-    if (selected) {
-      content = HomiGoLiquidSurface(
-        borderRadius: widget.radius,
-        tintColor: widget.tintColor,
-        tintStrength: _pressed ? 0.15 : 0.105,
-        selected: true,
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        child: content,
-      );
-    } else {
-      content = Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        child: content,
-      );
-    }
+    final foregroundColor = selected ? Colors.white : inactiveColor;
 
     return AnimatedScale(
       scale: _pressed ? 0.975 : 1.0,
-      duration: const Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 120),
       curve: Curves.easeOut,
       child: Material(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(widget.radius),
         child: InkWell(
           onTap: widget.onTap,
-          onHighlightChanged: (pressed) {
-            setState(() {
-              _pressed = pressed;
-            });
-          },
+          onHighlightChanged: _setPressed,
           borderRadius: BorderRadius.circular(widget.radius),
-          splashColor: widget.tintColor.withValues(alpha: 0.025),
+          splashColor: widget.tintColor.withValues(alpha: 0.06),
           highlightColor: Colors.transparent,
-          child: content,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            curve: Curves.easeOutCubic,
+            decoration: BoxDecoration(
+              color: selected ? widget.tintColor : Colors.transparent,
+              borderRadius: BorderRadius.circular(widget.radius),
+              boxShadow: selected
+                  ? [
+                      BoxShadow(
+                        color: widget.tintColor.withValues(alpha: 0.18),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ]
+                  : const [],
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            child: Center(
+              child: AnimatedDefaultTextStyle(
+                duration: const Duration(milliseconds: 180),
+                curve: Curves.easeOutCubic,
+                style: HomiGoTypography.labelMedium.copyWith(
+                  color: foregroundColor,
+                  fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (widget.item.icon != null) ...[
+                      AnimatedScale(
+                        duration: const Duration(milliseconds: 180),
+                        curve: Curves.easeOutCubic,
+                        scale: selected ? 1.06 : 1.0,
+                        child: Icon(
+                          widget.item.icon,
+                          size: 18,
+                          color: foregroundColor,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                    ],
+                    Flexible(
+                      child: Text(
+                        widget.item.label,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
