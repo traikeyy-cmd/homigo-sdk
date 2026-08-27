@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
 import '../../design_system/tokens/homigo_colors.dart';
+import '../../design_system/tokens/homigo_motion.dart';
+import '../../design_system/tokens/homigo_radius.dart';
 
 /// مربع مخصص للموافقات مثل الشروط والأحكام وسياسة الخصوصية.
 ///
@@ -31,7 +33,7 @@ class HomiGoAgreementTile extends StatefulWidget {
     required this.text,
     this.helperText,
     this.trailing,
-    this.borderRadius = 18,
+    this.borderRadius = HomiGoRadius.lg,
     this.padding = const EdgeInsets.all(14),
   });
 
@@ -70,7 +72,7 @@ class _HomiGoAgreementTileState extends State<HomiGoAgreementTile> {
       child: AnimatedScale(
         scale: _pressed ? 0.985 : 1.0,
         duration: const Duration(milliseconds: 140),
-        curve: Curves.easeOut,
+        curve: HomiGoMotion.fastCurve,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTapDown: _enabled
@@ -107,7 +109,7 @@ class _HomiGoAgreementTileState extends State<HomiGoAgreementTile> {
               children: [
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 170),
-                  curve: Curves.easeOutCubic,
+                  curve: HomiGoMotion.standardCurve,
                   width: 24,
                   height: 24,
                   decoration: BoxDecoration(
@@ -121,7 +123,7 @@ class _HomiGoAgreementTileState extends State<HomiGoAgreementTile> {
                     ),
                   ),
                   child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 150),
+                    duration: HomiGoMotion.fast,
                     child: widget.value
                         ? const Icon(
                             Icons.check_rounded,

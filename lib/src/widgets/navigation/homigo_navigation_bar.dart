@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/tokens/homigo_colors.dart';
+import '../../design_system/tokens/homigo_motion.dart';
 import '../../platform/system_ui/homigo_insets.dart';
 import '../cards/homigo_glass_card.dart';
 
@@ -71,8 +72,8 @@ class HomiGoNavigationBar extends StatelessWidget {
                 splashColor: brand.primaryColor.withValues(alpha: 0.06),
                 highlightColor: Colors.transparent,
                 child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 180),
-                  curve: Curves.easeOutCubic,
+                  duration: HomiGoMotion.standard,
+                  curve: HomiGoMotion.standardCurve,
                   padding: const EdgeInsets.symmetric(
                     vertical: 9,
                     horizontal: 4,
@@ -90,8 +91,8 @@ class HomiGoNavigationBar extends StatelessWidget {
                     children: [
                       AnimatedScale(
                         scale: selected ? 1.06 : 1.0,
-                        duration: const Duration(milliseconds: 180),
-                        curve: Curves.easeOutCubic,
+                        duration: HomiGoMotion.standard,
+                        curve: HomiGoMotion.standardCurve,
                         child: Icon(
                           selected ? item.activeIcon ?? item.icon : item.icon,
                           size: 22,
@@ -100,8 +101,8 @@ class HomiGoNavigationBar extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       AnimatedDefaultTextStyle(
-                        duration: const Duration(milliseconds: 180),
-                        curve: Curves.easeOutCubic,
+                        duration: HomiGoMotion.standard,
+                        curve: HomiGoMotion.standardCurve,
                         style:
                             theme.textTheme.labelMedium?.copyWith(
                               color: selected

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/tokens/homigo_colors.dart';
+import '../../design_system/tokens/homigo_motion.dart';
+import '../../design_system/tokens/homigo_radius.dart';
 
 class HomiGoCheckbox extends StatelessWidget {
   final bool value;
@@ -30,7 +32,7 @@ class HomiGoCheckbox extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: enabled ? () => onChanged?.call(!value) : null,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(HomiGoRadius.md),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Row(
@@ -38,7 +40,7 @@ class HomiGoCheckbox extends StatelessWidget {
             children: [
               AnimatedContainer(
                 duration: const Duration(milliseconds: 160),
-                curve: Curves.easeOutCubic,
+                curve: HomiGoMotion.standardCurve,
                 width: 28,
                 height: 28,
                 decoration: BoxDecoration(
@@ -51,7 +53,7 @@ class HomiGoCheckbox extends StatelessWidget {
                 ),
                 child: Center(
                   child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 150),
+                    duration: HomiGoMotion.fast,
                     child: value
                         ? const Icon(
                             Icons.check_rounded,
@@ -111,19 +113,19 @@ class HomiGoSwitch extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: enabled ? () => onChanged?.call(!value) : null,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(HomiGoRadius.lg),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             AnimatedContainer(
-              duration: const Duration(milliseconds: 180),
-              curve: Curves.easeOutCubic,
+              duration: HomiGoMotion.standard,
+              curve: HomiGoMotion.standardCurve,
               width: 54,
               height: 32,
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                 color: value ? brand.primaryColor : idleBackground,
-                borderRadius: BorderRadius.circular(999),
+                borderRadius: BorderRadius.circular(HomiGoRadius.pill),
                 border: Border.all(
                   color: value
                       ? brand.primaryColor.withValues(alpha: 0.75)
@@ -131,8 +133,8 @@ class HomiGoSwitch extends StatelessWidget {
                 ),
               ),
               child: AnimatedAlign(
-                duration: const Duration(milliseconds: 180),
-                curve: Curves.easeOutCubic,
+                duration: HomiGoMotion.standard,
+                curve: HomiGoMotion.standardCurve,
                 alignment: value
                     ? AlignmentDirectional.centerEnd
                     : AlignmentDirectional.centerStart,
@@ -200,7 +202,7 @@ class HomiGoRadio<T> extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: enabled ? () => onChanged?.call(value) : null,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(HomiGoRadius.md),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Row(
@@ -221,7 +223,7 @@ class HomiGoRadio<T> extends StatelessWidget {
                 child: Center(
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 160),
-                    curve: Curves.easeOutCubic,
+                    curve: HomiGoMotion.standardCurve,
                     width: selected ? 12 : 0,
                     height: selected ? 12 : 0,
                     decoration: BoxDecoration(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/tokens/homigo_motion.dart';
 
 /// زر الرجوع الموحد في HomiGo Native UI.
 ///
@@ -70,8 +71,8 @@ class _HomiGoBackButtonState extends State<HomiGoBackButton> {
       label: label,
       child: AnimatedScale(
         scale: _pressed ? 0.94 : 1.0,
-        duration: const Duration(milliseconds: 120),
-        curve: Curves.easeOut,
+        duration: HomiGoMotion.press,
+        curve: HomiGoMotion.fastCurve,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTapDown: widget.enabled

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
 import '../../design_system/tokens/homigo_colors.dart';
+import '../../design_system/tokens/homigo_motion.dart';
 import '../../design_system/tokens/homigo_typography.dart';
 
 /// الشكل البصري للزر.
@@ -117,9 +118,9 @@ class _HomiGoButtonState extends State<HomiGoButton> {
       button: true,
       enabled: _enabled,
       child: AnimatedScale(
-        scale: _pressed ? 0.98 : 1.0,
-        duration: const Duration(milliseconds: 150),
-        curve: Curves.easeOutCubic,
+        scale: _pressed ? HomiGoMotion.pressedScale : 1.0,
+        duration: HomiGoMotion.fast,
+        curve: HomiGoMotion.standardCurve,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTapDown: _enabled ? (_) => _setPressed(true) : null,
