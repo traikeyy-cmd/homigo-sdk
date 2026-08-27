@@ -82,9 +82,7 @@ class HomiGoNavigationBar extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: selected
-                        ? primary.withValues(
-                            alpha: isDark ? 0.18 : 0.09,
-                          )
+                        ? primary.withValues(alpha: isDark ? 0.18 : 0.09)
                         : Colors.transparent,
                     borderRadius: BorderRadius.circular(16),
                   ),
