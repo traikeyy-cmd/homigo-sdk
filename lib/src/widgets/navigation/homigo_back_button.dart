@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/theme/homigo_dynamic_colors.dart';
 import '../../design_system/tokens/homigo_motion.dart';
 
 /// زر الرجوع الموحد في HomiGo Native UI.
@@ -48,7 +48,6 @@ class _HomiGoBackButtonState extends State<HomiGoBackButton> {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
 
     final isRtl = Directionality.of(context) == TextDirection.rtl;
@@ -58,8 +57,8 @@ class _HomiGoBackButtonState extends State<HomiGoBackButton> {
     final foreground =
         widget.foregroundColor ??
         (theme.brightness == Brightness.dark
-            ? Colors.white
-            : brand.primaryColor);
+            ? theme.colorScheme.onSurface
+            : HomiGoDynamicColors.primary(context));
 
     final label =
         widget.semanticLabel ??
