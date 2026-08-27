@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/theme/homigo_dynamic_colors.dart';
 import '../../design_system/tokens/homigo_radius.dart';
 
 class HomiGoProgressBar extends StatelessWidget {
@@ -18,8 +18,7 @@ class HomiGoProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
-    final tint = tintColor ?? brand.primaryColor;
+    final tint = tintColor ?? HomiGoDynamicColors.primary(context);
     final progress = value.clamp(0.0, 1.0);
 
     return HomiGoNativeSurface(
@@ -71,8 +70,7 @@ class HomiGoCircularProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
-    final tint = tintColor ?? brand.primaryColor;
+    final tint = tintColor ?? HomiGoDynamicColors.primary(context);
 
     return HomiGoNativeSurface(
       width: size,
@@ -120,7 +118,7 @@ class HomiGoStepper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
+    final primary = HomiGoDynamicColors.primary(context);
     final theme = Theme.of(context);
 
     return Column(
@@ -129,9 +127,7 @@ class HomiGoStepper extends StatelessWidget {
         final completed = index < currentStep;
         final active = index == currentStep;
 
-        final tint = completed || active
-            ? brand.primaryColor
-            : theme.disabledColor;
+        final tint = completed || active ? primary : theme.disabledColor;
 
         return IntrinsicHeight(
           child: Row(
@@ -178,7 +174,7 @@ class HomiGoStepper extends StatelessWidget {
                         child: Container(
                           width: 2,
                           margin: const EdgeInsets.symmetric(vertical: 4),
-                          color: brand.primaryColor.withValues(
+                          color: primary.withValues(
                             alpha: completed ? 0.40 : 0.08,
                           ),
                         ),
@@ -196,7 +192,7 @@ class HomiGoStepper extends StatelessWidget {
                       Text(
                         step.title,
                         style: theme.textTheme.titleMedium?.copyWith(
-                          color: active ? brand.primaryColor : null,
+                          color: active ? primary : null,
                           fontWeight: active ? FontWeight.w700 : null,
                         ),
                       ),
