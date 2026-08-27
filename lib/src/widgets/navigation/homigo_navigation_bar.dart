@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/config/homigo_sdk_core.dart';
+import '../../design_system/theme/homigo_dynamic_colors.dart';
 import '../../design_system/tokens/homigo_colors.dart';
 import '../../design_system/tokens/homigo_motion.dart';
 import '../../design_system/tokens/homigo_radius.dart';
@@ -45,8 +45,8 @@ class HomiGoNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
+    final primary = HomiGoDynamicColors.primary(context);
 
     final isDark = theme.brightness == Brightness.dark;
 
@@ -70,7 +70,7 @@ class HomiGoNavigationBar extends StatelessWidget {
               child: InkWell(
                 onTap: () => onDestinationSelected(index),
                 borderRadius: BorderRadius.circular(16),
-                splashColor: brand.primaryColor.withValues(alpha: 0.06),
+                splashColor: primary.withValues(alpha: 0.06),
                 highlightColor: Colors.transparent,
                 child: AnimatedContainer(
                   duration: HomiGoMotion.standard,
@@ -81,9 +81,7 @@ class HomiGoNavigationBar extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: selected
-                        ? brand.primaryColor.withValues(
-                            alpha: isDark ? 0.18 : 0.09,
-                          )
+                        ? primary.withValues(alpha: isDark ? 0.18 : 0.09)
                         : Colors.transparent,
                     borderRadius: BorderRadius.circular(16),
                   ),
@@ -97,7 +95,7 @@ class HomiGoNavigationBar extends StatelessWidget {
                         child: Icon(
                           selected ? item.activeIcon ?? item.icon : item.icon,
                           size: 22,
-                          color: selected ? brand.primaryColor : inactiveColor,
+                          color: selected ? primary : inactiveColor,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -106,17 +104,13 @@ class HomiGoNavigationBar extends StatelessWidget {
                         curve: HomiGoMotion.standardCurve,
                         style:
                             theme.textTheme.labelMedium?.copyWith(
-                              color: selected
-                                  ? brand.primaryColor
-                                  : inactiveColor,
+                              color: selected ? primary : inactiveColor,
                               fontWeight: selected
                                   ? FontWeight.w700
                                   : FontWeight.w500,
                             ) ??
                             TextStyle(
-                              color: selected
-                                  ? brand.primaryColor
-                                  : inactiveColor,
+                              color: selected ? primary : inactiveColor,
                               fontWeight: selected
                                   ? FontWeight.w700
                                   : FontWeight.w500,

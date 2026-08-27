@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/config/homigo_sdk_core.dart';
+import '../../design_system/theme/homigo_dynamic_colors.dart';
 import '../../design_system/tokens/homigo_colors.dart';
 import '../buttons/homigo_button.dart';
 import '../cards/homigo_glass_card.dart';
@@ -12,7 +12,6 @@ class HomiGoLoadingState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
 
     return Center(
@@ -28,7 +27,7 @@ class HomiGoLoadingState extends StatelessWidget {
                 height: 28,
                 child: CircularProgressIndicator(
                   strokeWidth: 2.4,
-                  color: brand.primaryColor,
+                  color: HomiGoDynamicColors.primary(context),
                 ),
               ),
               if (message != null) ...[
@@ -70,7 +69,7 @@ class HomiGoEmptyState extends StatelessWidget {
       title: title,
       message: message,
       icon: icon,
-      tintColor: HomiGoSDK.config.brand.primaryColor,
+      tintColor: HomiGoDynamicColors.primary(context),
       actionLabel: actionLabel,
       onAction: onAction,
     );

@@ -1,6 +1,6 @@
 name: homigo_sdk
 description: "Reusable Flutter foundation, design system, platform services, and production infrastructure for HomiGo applications."
-version: 1.1.0
+version: 1.1.1
 homepage: https://github.com/traikeyy-cmd/homigo-sdk
 repository: https://github.com/traikeyy-cmd/homigo-sdk
 issue_tracker: https://github.com/traikeyy-cmd/homigo-sdk/issues

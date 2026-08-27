@@ -6,11 +6,11 @@ It provides a shared native design system, reusable UI primitives, platform adap
 
 ## Version
 
-Current release: **1.1.0**
+Current release: **1.1.1**
 
 ## Native Design System
 
-HomiGo 1.1.0 uses a lightweight native UI language built around solid surfaces, elevated icon tiles, soft accent colors, subtle borders and shadows, and short micro-animations.
+HomiGo 1.1.x uses a lightweight native UI language built around solid surfaces, elevated icon tiles, soft accent colors, subtle borders and shadows, and short micro-animations.
 
 The design system intentionally avoids runtime glass/blur effects such as `BackdropFilter` and `ImageFilter.blur` in HomiGo components.
 
@@ -43,9 +43,42 @@ HomiGo SDK is a **toolkit, not an application template**. Applications decide th
 
 For example, an order card, clinic patient card, finance card, or project card can all be built from the same `HomiGoCard`, `HomiGoElevatedIcon`, status, typography, spacing, and action primitives without the SDK knowing the application's domain.
 
+## Dynamic Colors
+
+HomiGo 1.1.1 resolves runtime component accents from the host application's active `ThemeData.colorScheme`. This means HomiGo buttons, inputs, segmented controls, elevated icons, navigation, progress indicators, informational states, and other accent-driven components automatically follow Material dynamic colors or any custom host `ColorScheme`.
+
+Brand colors remain the default seed and fallback when HomiGo builds its own theme. Explicit component color overrides such as `tintColor` or `color` still take precedence.
+
+If the host application already builds its own `ThemeData`, no special adapter is required: initialize HomiGo once, then use HomiGo components under that `MaterialApp` theme.
+
+For applications using `dynamic_color`, HomiGo can also build its complete theme around the resolved schemes:
+
+```dart
+DynamicColorBuilder(
+  builder: (lightDynamic, darkDynamic) {
+    final lightScheme = lightDynamic ??
+        ColorScheme.fromSeed(seedColor: const Color(0xFF4C8BF5));
+
+    final darkScheme = darkDynamic ??
+        ColorScheme.fromSeed(
+          seedColor: const Color(0xFF4C8BF5),
+          brightness: Brightness.dark,
+        );
+
+    return MaterialApp(
+      theme: HomiGoTheme.fromColorScheme(lightScheme),
+      darkTheme: HomiGoTheme.fromColorScheme(darkScheme),
+      themeMode: ThemeMode.system,
+    );
+  },
+)
+```
+
+`HomiGoDynamicColors.primary(context)` and `HomiGoDynamicColors.secondary(context)` are also available when application-specific widgets need the exact same runtime accent colors as HomiGo components.
+
 ## Compatibility
 
-The 1.1.0 release keeps legacy public names so existing applications can migrate without a breaking release.
+The 1.1.x releases keep legacy public names so existing applications can migrate without a breaking release.
 
 - `HomiGoGlassCard` delegates to `HomiGoCard`.
 - `HomiGoLiquidSegmentedControl` delegates to `HomiGoSegmentedControl`.
@@ -130,7 +163,7 @@ Or add it manually to your application's `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  homigo_sdk: ^1.1.0
+  homigo_sdk: ^1.1.1
 ```
 
 Then run:
@@ -141,7 +174,7 @@ flutter pub get
 
 ## Basic Initialization
 
-The recommended entry point is `HomiGoBootstrap`.
+The recommended entry point is `HomiGoBootstrap` for applications that want the complete HomiGo infrastructure stack.
 
 ```dart
 import 'package:flutter/material.dart';
@@ -162,6 +195,21 @@ Future<void> main() async {
 }
 ```
 
+Applications that only need the design system can initialize the Core SDK directly without opting into platform adapters or HomiGo networking:
+
+```dart
+await HomiGoSDK.initialize(
+  config: const HomiGoConfig(
+    appName: 'My App',
+    brand: HomiGoBrand(
+      primaryColor: Color(0xFF4C8BF5),
+      secondaryColor: Color(0xFFFF8A00),
+      fontFamily: 'Cairo',
+    ),
+  ),
+);
+```
+
 ## Theme
 
 Use the HomiGo theme directly with `MaterialApp`:
@@ -174,7 +222,7 @@ MaterialApp(
 );
 ```
 
-The theme uses the brand configured through `HomiGoConfig`.
+Or use `HomiGoTheme.fromColorScheme(...)` to preserve an existing or dynamically generated Material `ColorScheme`.
 
 ## Compose Application-Specific UI
 
@@ -233,6 +281,8 @@ const config = HomiGoConfig(
 );
 ```
 
+When an active host `ColorScheme` is present, runtime HomiGo component accents follow that scheme. The configured brand remains the seed/fallback and still provides non-color design configuration such as border radius and font family.
+
 ## Networking
 
 An API base URL can be registered during bootstrap:
@@ -285,8 +335,8 @@ Firebase integrations are intentionally kept outside the Core SDK so application
 
 ```yaml
 dependencies:
-  homigo_sdk: ^1.1.0
-  homigo_sdk_firebase: ^1.0.0
+  homigo_sdk: ^1.1.1
+  homigo_sdk_firebase: ^1.0.1
 ```
 
 The companion package provides Firebase Core, Authentication, Cloud Messaging, Analytics, Crashlytics, and Remote Config integrations.

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/theme/homigo_dynamic_colors.dart';
 import '../../design_system/tokens/homigo_colors.dart';
 
 enum HomiGoSnackBarVariant { info, success, warning, error }
@@ -15,11 +15,10 @@ abstract final class HomiGoSnackBar {
     String? actionLabel,
     VoidCallback? onAction,
   }) {
-    final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
 
     final tintColor = switch (variant) {
-      HomiGoSnackBarVariant.info => brand.primaryColor,
+      HomiGoSnackBarVariant.info => HomiGoDynamicColors.primary(context),
       HomiGoSnackBarVariant.success => HomiGoColors.success,
       HomiGoSnackBarVariant.warning => HomiGoColors.warning,
       HomiGoSnackBarVariant.error => HomiGoColors.error,

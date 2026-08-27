@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/config/homigo_sdk_core.dart';
+import '../../design_system/theme/homigo_dynamic_colors.dart';
 import '../../design_system/tokens/homigo_colors.dart';
 import '../../design_system/tokens/homigo_motion.dart';
 import '../../design_system/tokens/homigo_radius.dart';
@@ -20,8 +20,8 @@ class HomiGoCheckbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
+    final primary = HomiGoDynamicColors.primary(context);
     final enabled = onChanged != null;
     final isDark = theme.brightness == Brightness.dark;
 
@@ -45,10 +45,10 @@ class HomiGoCheckbox extends StatelessWidget {
                 width: 28,
                 height: 28,
                 decoration: BoxDecoration(
-                  color: value ? brand.primaryColor : Colors.transparent,
+                  color: value ? primary : Colors.transparent,
                   borderRadius: BorderRadius.circular(9),
                   border: Border.all(
-                    color: value ? brand.primaryColor : idleBorder,
+                    color: value ? primary : idleBorder,
                     width: 1.4,
                   ),
                 ),
@@ -56,11 +56,11 @@ class HomiGoCheckbox extends StatelessWidget {
                   child: AnimatedSwitcher(
                     duration: HomiGoMotion.fast,
                     child: value
-                        ? const Icon(
+                        ? Icon(
                             Icons.check_rounded,
-                            key: ValueKey('checked'),
+                            key: const ValueKey('checked'),
                             size: 18,
-                            color: Colors.white,
+                            color: theme.colorScheme.onPrimary,
                           )
                         : const SizedBox(key: ValueKey('unchecked')),
                   ),
@@ -98,8 +98,8 @@ class HomiGoSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
+    final primary = HomiGoDynamicColors.primary(context);
     final enabled = onChanged != null;
     final isDark = theme.brightness == Brightness.dark;
 
@@ -126,12 +126,10 @@ class HomiGoSwitch extends StatelessWidget {
               height: 32,
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color: value ? brand.primaryColor : idleBackground,
+                color: value ? primary : idleBackground,
                 borderRadius: BorderRadius.circular(HomiGoRadius.pill),
                 border: Border.all(
-                  color: value
-                      ? brand.primaryColor.withValues(alpha: 0.75)
-                      : idleBorder,
+                  color: value ? primary.withValues(alpha: 0.75) : idleBorder,
                 ),
               ),
               child: AnimatedAlign(
@@ -145,7 +143,7 @@ class HomiGoSwitch extends StatelessWidget {
                   height: 24,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.white,
+                    color: theme.colorScheme.onPrimary,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.10),
@@ -190,8 +188,8 @@ class HomiGoRadio<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
+    final primary = HomiGoDynamicColors.primary(context);
 
     final selected = value == groupValue;
     final enabled = onChanged != null;
@@ -219,7 +217,7 @@ class HomiGoRadio<T> extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: Colors.transparent,
                   border: Border.all(
-                    color: selected ? brand.primaryColor : idleBorder,
+                    color: selected ? primary : idleBorder,
                     width: selected ? 1.8 : 1.4,
                   ),
                 ),
@@ -231,7 +229,7 @@ class HomiGoRadio<T> extends StatelessWidget {
                     height: selected ? 12 : 0,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: brand.primaryColor,
+                      color: primary,
                     ),
                   ),
                 ),

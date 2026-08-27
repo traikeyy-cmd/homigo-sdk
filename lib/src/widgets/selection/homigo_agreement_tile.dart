@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/theme/homigo_dynamic_colors.dart';
 import '../../design_system/tokens/homigo_colors.dart';
 import '../../design_system/tokens/homigo_motion.dart';
 import '../../design_system/tokens/homigo_radius.dart';
@@ -52,8 +52,8 @@ class _HomiGoAgreementTileState extends State<HomiGoAgreementTile> {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
+    final primary = HomiGoDynamicColors.primary(context);
 
     final isDark = theme.brightness == Brightness.dark;
 
@@ -62,7 +62,7 @@ class _HomiGoAgreementTileState extends State<HomiGoAgreementTile> {
         : HomiGoColors.lightBorder;
 
     final borderColor = widget.value
-        ? brand.primaryColor.withValues(alpha: 0.42)
+        ? primary.withValues(alpha: 0.42)
         : idleBorder;
 
     return Semantics(
@@ -101,6 +101,7 @@ class _HomiGoAgreementTileState extends State<HomiGoAgreementTile> {
             borderRadius: widget.borderRadius,
             borderColor: borderColor,
             selected: widget.value,
+            tintColor: primary,
             enabled: _enabled,
             elevated: false,
             padding: widget.padding,
@@ -113,23 +114,21 @@ class _HomiGoAgreementTileState extends State<HomiGoAgreementTile> {
                   width: 24,
                   height: 24,
                   decoration: BoxDecoration(
-                    color: widget.value
-                        ? brand.primaryColor
-                        : Colors.transparent,
+                    color: widget.value ? primary : Colors.transparent,
                     borderRadius: BorderRadius.circular(7),
                     border: Border.all(
-                      color: widget.value ? brand.primaryColor : idleBorder,
+                      color: widget.value ? primary : idleBorder,
                       width: 1.4,
                     ),
                   ),
                   child: AnimatedSwitcher(
                     duration: HomiGoMotion.fast,
                     child: widget.value
-                        ? const Icon(
+                        ? Icon(
                             Icons.check_rounded,
-                            key: ValueKey('agreement_checked'),
+                            key: const ValueKey('agreement_checked'),
                             size: 17,
-                            color: Colors.white,
+                            color: theme.colorScheme.onPrimary,
                           )
                         : const SizedBox(key: ValueKey('agreement_unchecked')),
                   ),

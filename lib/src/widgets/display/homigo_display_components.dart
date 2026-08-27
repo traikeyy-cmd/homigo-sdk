@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/theme/homigo_dynamic_colors.dart';
 import '../../design_system/tokens/homigo_colors.dart';
 import '../../design_system/tokens/homigo_radius.dart';
 import '../cards/homigo_glass_card.dart';
@@ -26,7 +26,7 @@ class HomiGoListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
+    final primary = HomiGoDynamicColors.primary(context);
     final theme = Theme.of(context);
 
     return Material(
@@ -37,7 +37,7 @@ class HomiGoListTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         child: HomiGoNativeSurface(
           borderRadius: 16,
-          tintColor: brand.primaryColor,
+          tintColor: primary,
           selected: selected,
           tintStrength: selected ? 0.08 : 0.015,
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -52,7 +52,7 @@ class HomiGoListTile extends StatelessWidget {
                       title,
                       style: theme.textTheme.bodyLarge?.copyWith(
                         fontWeight: selected ? FontWeight.w700 : null,
-                        color: selected ? brand.primaryColor : null,
+                        color: selected ? primary : null,
                       ),
                     ),
                     if (subtitle != null) ...[
@@ -127,10 +127,8 @@ class HomiGoChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
-
-    final tint = tintColor ?? brand.primaryColor;
+    final tint = tintColor ?? HomiGoDynamicColors.primary(context);
 
     return Material(
       color: Colors.transparent,
@@ -184,10 +182,8 @@ class HomiGoBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
-
-    final tint = tintColor ?? brand.primaryColor;
+    final tint = tintColor ?? HomiGoDynamicColors.primary(context);
 
     final badge = HomiGoNativeSurface(
       borderRadius: HomiGoRadius.pill,
@@ -236,10 +232,8 @@ class HomiGoAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
-
-    final tint = tintColor ?? brand.primaryColor;
+    final tint = tintColor ?? HomiGoDynamicColors.primary(context);
     final size = radius * 2;
 
     return HomiGoNativeSurface(
@@ -286,7 +280,7 @@ class HomiGoStatusBadge extends StatelessWidget {
     final theme = Theme.of(context);
 
     final color = switch (status) {
-      HomiGoStatus.info => HomiGoColors.info,
+      HomiGoStatus.info => HomiGoDynamicColors.primary(context),
       HomiGoStatus.success => HomiGoColors.success,
       HomiGoStatus.warning => HomiGoColors.warning,
       HomiGoStatus.error => HomiGoColors.error,

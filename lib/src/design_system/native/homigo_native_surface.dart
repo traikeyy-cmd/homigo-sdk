@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
+import '../theme/homigo_dynamic_colors.dart';
 import '../tokens/homigo_colors.dart';
 import '../tokens/homigo_elevation.dart';
 import '../tokens/homigo_motion.dart';
@@ -73,15 +74,13 @@ class HomiGoNativeSurface extends StatelessWidget {
 
     final radius = borderRadius ?? brand.borderRadius;
 
-    final baseSurface =
-        backgroundColor ??
-        (isDark ? HomiGoColors.darkSurface : HomiGoColors.lightSurface);
+    final baseSurface = backgroundColor ?? theme.colorScheme.surface;
 
     final baseBorder =
         borderColor ??
         (isDark ? HomiGoColors.darkBorder : HomiGoColors.lightBorder);
 
-    final tint = tintColor ?? brand.primaryColor;
+    final tint = tintColor ?? HomiGoDynamicColors.primary(context);
 
     final requestedTint = (selected ? tintStrength * 1.35 : tintStrength)
         .clamp(0.0, 1.0)

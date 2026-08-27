@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/theme/homigo_dynamic_colors.dart';
 import '../../design_system/tokens/homigo_radius.dart';
 import '../../platform/system_ui/homigo_insets.dart';
 import '../cards/homigo_glass_card.dart';
@@ -30,12 +30,12 @@ class HomiGoAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
+    final primary = HomiGoDynamicColors.primary(context);
 
     Widget toolbar = HomiGoNativeSurface(
       borderRadius: 0,
-      tintColor: brand.primaryColor,
+      tintColor: primary,
       tintStrength: 0.012,
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: SizedBox(
@@ -115,8 +115,7 @@ class HomiGoPageIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
-    final tint = tintColor ?? brand.primaryColor;
+    final tint = tintColor ?? HomiGoDynamicColors.primary(context);
 
     return Row(
       mainAxisSize: MainAxisSize.min,

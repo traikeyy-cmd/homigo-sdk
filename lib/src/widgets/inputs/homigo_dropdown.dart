@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/theme/homigo_dynamic_colors.dart';
 import '../../design_system/tokens/homigo_radius.dart';
 import '../cards/homigo_glass_card.dart';
 
@@ -59,6 +60,7 @@ class HomiGoDropdown<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
+    final primary = HomiGoDynamicColors.primary(context);
 
     final selected = _selectedItem;
     final active = enabled && onChanged != null;
@@ -82,17 +84,17 @@ class HomiGoDropdown<T> extends StatelessWidget {
             borderRadius: BorderRadius.circular(
               borderRadius ?? brand.borderRadius,
             ),
-            splashColor: brand.primaryColor.withValues(alpha: 0.025),
+            splashColor: primary.withValues(alpha: 0.025),
             highlightColor: Colors.transparent,
             child: HomiGoNativeSurface(
               borderRadius: borderRadius ?? brand.borderRadius,
-              tintColor: brand.primaryColor,
+              tintColor: primary,
               tintStrength: 0.030,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               child: Row(
                 children: [
                   if (prefixIcon != null) ...[
-                    Icon(prefixIcon, color: brand.primaryColor),
+                    Icon(prefixIcon, color: primary),
                     const SizedBox(width: 12),
                   ],
                   Expanded(
@@ -108,7 +110,7 @@ class HomiGoDropdown<T> extends StatelessWidget {
                   const SizedBox(width: 10),
                   Icon(
                     Icons.keyboard_arrow_down_rounded,
-                    color: active ? brand.primaryColor : theme.disabledColor,
+                    color: active ? primary : theme.disabledColor,
                   ),
                 ],
               ),
@@ -120,7 +122,7 @@ class HomiGoDropdown<T> extends StatelessWidget {
   }
 
   Future<void> _openItems(BuildContext context) async {
-    final brand = HomiGoSDK.config.brand;
+    final primary = HomiGoDynamicColors.primary(context);
 
     final result = await showModalBottomSheet<T>(
       context: context,
@@ -181,7 +183,7 @@ class HomiGoDropdown<T> extends StatelessWidget {
                             borderRadius: BorderRadius.circular(16),
                             child: HomiGoNativeSurface(
                               borderRadius: 16,
-                              tintColor: brand.primaryColor,
+                              tintColor: primary,
                               selected: isSelected,
                               tintStrength: isSelected ? 0.10 : 0.018,
                               padding: const EdgeInsets.symmetric(
@@ -194,7 +196,7 @@ class HomiGoDropdown<T> extends StatelessWidget {
                                     Icon(
                                       item.icon,
                                       color: isSelected
-                                          ? brand.primaryColor
+                                          ? primary
                                           : theme.iconTheme.color,
                                     ),
                                     const SizedBox(width: 12),
@@ -204,9 +206,7 @@ class HomiGoDropdown<T> extends StatelessWidget {
                                       item.label,
                                       style: theme.textTheme.bodyMedium
                                           ?.copyWith(
-                                            color: isSelected
-                                                ? brand.primaryColor
-                                                : null,
+                                            color: isSelected ? primary : null,
                                             fontWeight: isSelected
                                                 ? FontWeight.w700
                                                 : null,
@@ -214,10 +214,7 @@ class HomiGoDropdown<T> extends StatelessWidget {
                                     ),
                                   ),
                                   if (isSelected)
-                                    Icon(
-                                      Icons.check_rounded,
-                                      color: brand.primaryColor,
-                                    ),
+                                    Icon(Icons.check_rounded, color: primary),
                                 ],
                               ),
                             ),

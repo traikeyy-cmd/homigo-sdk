@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/theme/homigo_dynamic_colors.dart';
 import '../../design_system/tokens/homigo_radius.dart';
 import '../cards/homigo_glass_card.dart';
 
@@ -23,8 +23,7 @@ class HomiGoIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
-    final tint = tintColor ?? brand.primaryColor;
+    final tint = tintColor ?? HomiGoDynamicColors.primary(context);
 
     Widget result = Material(
       color: Colors.transparent,
@@ -76,8 +75,7 @@ class HomiGoFloatingActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
-    final tint = tintColor ?? brand.primaryColor;
+    final tint = tintColor ?? HomiGoDynamicColors.primary(context);
 
     Widget button = Material(
       color: Colors.transparent,
@@ -116,7 +114,8 @@ class HomiGoTooltip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
+    final primary = HomiGoDynamicColors.primary(context);
+    final secondary = HomiGoDynamicColors.secondary(context);
 
     return Tooltip(
       message: message,
@@ -124,8 +123,8 @@ class HomiGoTooltip extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         gradient: LinearGradient(
           colors: [
-            brand.primaryColor.withValues(alpha: 0.72),
-            brand.secondaryColor.withValues(alpha: 0.58),
+            primary.withValues(alpha: 0.72),
+            secondary.withValues(alpha: 0.58),
           ],
         ),
       ),
@@ -151,7 +150,7 @@ class HomiGoMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
+    final primary = HomiGoDynamicColors.primary(context);
     final theme = Theme.of(context);
 
     return HomiGoGlassCard(
@@ -168,7 +167,7 @@ class HomiGoMenu extends StatelessWidget {
                 borderRadius: BorderRadius.circular(HomiGoRadius.md),
                 child: HomiGoNativeSurface(
                   borderRadius: HomiGoRadius.md,
-                  tintColor: brand.primaryColor,
+                  tintColor: primary,
                   tintStrength: 0.015,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 14,
@@ -177,11 +176,7 @@ class HomiGoMenu extends StatelessWidget {
                   child: Row(
                     children: [
                       if (items[i].icon != null) ...[
-                        Icon(
-                          items[i].icon,
-                          size: 20,
-                          color: brand.primaryColor,
-                        ),
+                        Icon(items[i].icon, size: 20, color: primary),
                         const SizedBox(width: 12),
                       ],
                       Expanded(
@@ -253,7 +248,7 @@ class _HomiGoPopupMenuState<T> extends State<HomiGoPopupMenu<T>> {
       overlay.size.height - offset.dy - renderBox.size.height,
     );
 
-    final brand = HomiGoSDK.config.brand;
+    final primary = HomiGoDynamicColors.primary(context);
     final theme = Theme.of(context);
 
     final selected = await showMenu<T>(
@@ -268,13 +263,13 @@ class _HomiGoPopupMenuState<T> extends State<HomiGoPopupMenu<T>> {
           padding: EdgeInsets.zero,
           child: HomiGoNativeSurface(
             borderRadius: HomiGoRadius.md,
-            tintColor: brand.primaryColor,
+            tintColor: primary,
             tintStrength: 0.028,
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
             child: Row(
               children: [
                 if (item.icon != null) ...[
-                  Icon(item.icon, size: 19, color: brand.primaryColor),
+                  Icon(item.icon, size: 19, color: primary),
                   const SizedBox(width: 10),
                 ],
                 Text(item.label, style: theme.textTheme.bodyMedium),

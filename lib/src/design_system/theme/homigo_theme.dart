@@ -11,17 +11,41 @@ import '../tokens/homigo_typography.dart';
 /// مع إمكانية تمرير Brand مختلف عند الحاجة.
 abstract final class HomiGoTheme {
   /// الثيم الفاتح.
-  static ThemeData light({HomiGoBrand? brand}) {
+  static ThemeData light({HomiGoBrand? brand, ColorScheme? colorScheme}) {
     final effectiveBrand = brand ?? HomiGoSDK.config.brand;
 
-    return _buildTheme(brightness: Brightness.light, brand: effectiveBrand);
+    return _buildTheme(
+      brightness: Brightness.light,
+      brand: effectiveBrand,
+      colorScheme: colorScheme,
+    );
   }
 
   /// الثيم الداكن.
-  static ThemeData dark({HomiGoBrand? brand}) {
+  static ThemeData dark({HomiGoBrand? brand, ColorScheme? colorScheme}) {
     final effectiveBrand = brand ?? HomiGoSDK.config.brand;
 
-    return _buildTheme(brightness: Brightness.dark, brand: effectiveBrand);
+    return _buildTheme(
+      brightness: Brightness.dark,
+      brand: effectiveBrand,
+      colorScheme: colorScheme,
+    );
+  }
+
+  /// Builds a HomiGo theme around an existing host [ColorScheme].
+  ///
+  /// This is the preferred integration point for Material dynamic colors.
+  static ThemeData fromColorScheme(
+    ColorScheme colorScheme, {
+    HomiGoBrand? brand,
+  }) {
+    final effectiveBrand = brand ?? HomiGoSDK.config.brand;
+
+    return _buildTheme(
+      brightness: colorScheme.brightness,
+      brand: effectiveBrand,
+      colorScheme: colorScheme,
+    );
   }
 
   /// ThemeMode المحدد في إعدادات الـSDK.
@@ -30,6 +54,7 @@ abstract final class HomiGoTheme {
   static ThemeData _buildTheme({
     required Brightness brightness,
     required HomiGoBrand brand,
+    ColorScheme? colorScheme,
   }) {
     final isDark = brightness == Brightness.dark;
 
@@ -51,7 +76,8 @@ abstract final class HomiGoTheme {
 
     final border = isDark ? HomiGoColors.darkBorder : HomiGoColors.lightBorder;
 
-    final colorScheme =
+    final effectiveColorScheme =
+        colorScheme ??
         ColorScheme.fromSeed(
           seedColor: brand.primaryColor,
           brightness: brightness,
@@ -62,24 +88,54 @@ abstract final class HomiGoTheme {
           error: HomiGoColors.error,
         );
 
+    final effectiveBackground = colorScheme == null
+        ? background
+        : effectiveColorScheme.surface;
+    final effectiveSurface = effectiveColorScheme.surface;
+    final effectiveTextPrimary = colorScheme == null
+        ? textPrimary
+        : effectiveColorScheme.onSurface;
+    final effectiveTextSecondary = colorScheme == null
+        ? textSecondary
+        : effectiveColorScheme.onSurfaceVariant;
+    final effectiveBorder = colorScheme == null
+        ? border
+        : effectiveColorScheme.outlineVariant;
+
     final textTheme = TextTheme(
-      displayLarge: HomiGoTypography.displayLarge.copyWith(color: textPrimary),
+      displayLarge: HomiGoTypography.displayLarge.copyWith(
+        color: effectiveTextPrimary,
+      ),
       displayMedium: HomiGoTypography.displayMedium.copyWith(
-        color: textPrimary,
+        color: effectiveTextPrimary,
       ),
       headlineLarge: HomiGoTypography.headlineLarge.copyWith(
-        color: textPrimary,
+        color: effectiveTextPrimary,
       ),
       headlineMedium: HomiGoTypography.headlineMedium.copyWith(
-        color: textPrimary,
+        color: effectiveTextPrimary,
       ),
-      titleLarge: HomiGoTypography.titleLarge.copyWith(color: textPrimary),
-      titleMedium: HomiGoTypography.titleMedium.copyWith(color: textPrimary),
-      bodyLarge: HomiGoTypography.bodyLarge.copyWith(color: textPrimary),
-      bodyMedium: HomiGoTypography.bodyMedium.copyWith(color: textPrimary),
-      bodySmall: HomiGoTypography.bodySmall.copyWith(color: textSecondary),
-      labelLarge: HomiGoTypography.labelLarge.copyWith(color: textPrimary),
-      labelMedium: HomiGoTypography.labelMedium.copyWith(color: textSecondary),
+      titleLarge: HomiGoTypography.titleLarge.copyWith(
+        color: effectiveTextPrimary,
+      ),
+      titleMedium: HomiGoTypography.titleMedium.copyWith(
+        color: effectiveTextPrimary,
+      ),
+      bodyLarge: HomiGoTypography.bodyLarge.copyWith(
+        color: effectiveTextPrimary,
+      ),
+      bodyMedium: HomiGoTypography.bodyMedium.copyWith(
+        color: effectiveTextPrimary,
+      ),
+      bodySmall: HomiGoTypography.bodySmall.copyWith(
+        color: effectiveTextSecondary,
+      ),
+      labelLarge: HomiGoTypography.labelLarge.copyWith(
+        color: effectiveTextPrimary,
+      ),
+      labelMedium: HomiGoTypography.labelMedium.copyWith(
+        color: effectiveTextSecondary,
+      ),
     );
 
     final radius = BorderRadius.circular(brand.borderRadius);
@@ -87,128 +143,101 @@ abstract final class HomiGoTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: brightness,
-      colorScheme: colorScheme,
-      scaffoldBackgroundColor: background,
+      colorScheme: effectiveColorScheme,
+      scaffoldBackgroundColor: effectiveBackground,
       fontFamily: brand.fontFamily,
       textTheme: textTheme,
-
-      // --------------------------------------------------------
-      // AppBar
-      // --------------------------------------------------------
       appBarTheme: AppBarTheme(
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: false,
         backgroundColor: Colors.transparent,
-        foregroundColor: textPrimary,
+        foregroundColor: effectiveTextPrimary,
         surfaceTintColor: Colors.transparent,
       ),
-
-      // --------------------------------------------------------
-      // Cards
-      // --------------------------------------------------------
       cardTheme: CardThemeData(
         elevation: 0,
-        color: surface,
+        color: effectiveSurface,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: radius,
-          side: BorderSide(color: border),
+          side: BorderSide(color: effectiveBorder),
         ),
       ),
-
-      // --------------------------------------------------------
-      // Elevated Buttons
-      // --------------------------------------------------------
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           elevation: 0,
-          backgroundColor: brand.primaryColor,
-          foregroundColor: Colors.white,
+          backgroundColor: effectiveColorScheme.primary,
+          foregroundColor: effectiveColorScheme.onPrimary,
           minimumSize: const Size(0, 52),
           shape: RoundedRectangleBorder(borderRadius: radius),
           textStyle: HomiGoTypography.labelLarge,
         ),
       ),
-
-      // --------------------------------------------------------
-      // Filled Buttons
-      // --------------------------------------------------------
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
+          backgroundColor: effectiveColorScheme.primary,
+          foregroundColor: effectiveColorScheme.onPrimary,
           minimumSize: const Size(0, 52),
           shape: RoundedRectangleBorder(borderRadius: radius),
           textStyle: HomiGoTypography.labelLarge,
         ),
       ),
-
-      // --------------------------------------------------------
-      // Outlined Buttons
-      // --------------------------------------------------------
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           minimumSize: const Size(0, 52),
-          foregroundColor: brand.primaryColor,
-          side: BorderSide(color: border),
+          foregroundColor: effectiveColorScheme.primary,
+          side: BorderSide(color: effectiveBorder),
           shape: RoundedRectangleBorder(borderRadius: radius),
           textStyle: HomiGoTypography.labelLarge,
         ),
       ),
-
-      // --------------------------------------------------------
-      // Inputs
-      // --------------------------------------------------------
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: surface,
+        fillColor: effectiveSurface,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 16,
         ),
         border: OutlineInputBorder(
           borderRadius: radius,
-          borderSide: BorderSide(color: border),
+          borderSide: BorderSide(color: effectiveBorder),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: radius,
-          borderSide: BorderSide(color: border),
+          borderSide: BorderSide(color: effectiveBorder),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: radius,
-          borderSide: BorderSide(color: brand.primaryColor, width: 1.5),
+          borderSide: BorderSide(
+            color: effectiveColorScheme.primary,
+            width: 1.5,
+          ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: radius,
-          borderSide: const BorderSide(color: HomiGoColors.error),
+          borderSide: BorderSide(color: effectiveColorScheme.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: radius,
-          borderSide: const BorderSide(color: HomiGoColors.error, width: 1.5),
+          borderSide: BorderSide(color: effectiveColorScheme.error, width: 1.5),
         ),
       ),
-
-      // --------------------------------------------------------
-      // Divider
-      // --------------------------------------------------------
-      dividerTheme: DividerThemeData(color: border, thickness: 1, space: 1),
-
-      // --------------------------------------------------------
-      // Dialog
-      // --------------------------------------------------------
+      dividerTheme: DividerThemeData(
+        color: effectiveBorder,
+        thickness: 1,
+        space: 1,
+      ),
       dialogTheme: DialogThemeData(
         elevation: 0,
-        backgroundColor: surface,
+        backgroundColor: effectiveSurface,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(borderRadius: radius),
       ),
-
-      // --------------------------------------------------------
-      // Bottom Sheet
-      // --------------------------------------------------------
       bottomSheetTheme: BottomSheetThemeData(
         elevation: 0,
-        backgroundColor: surface,
-        modalBackgroundColor: surface,
+        backgroundColor: effectiveSurface,
+        modalBackgroundColor: effectiveSurface,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -216,38 +245,22 @@ abstract final class HomiGoTheme {
           ),
         ),
       ),
-
-      // --------------------------------------------------------
-      // Navigation Bar
-      // --------------------------------------------------------
       navigationBarTheme: NavigationBarThemeData(
         elevation: 0,
-        backgroundColor: surface,
-        indicatorColor: brand.primaryColor.withValues(alpha: 0.14),
+        backgroundColor: effectiveSurface,
+        indicatorColor: effectiveColorScheme.primary.withValues(alpha: 0.14),
       ),
-
-      // --------------------------------------------------------
-      // Floating Action Button
-      // --------------------------------------------------------
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         elevation: 0,
-        backgroundColor: brand.primaryColor,
-        foregroundColor: Colors.white,
+        backgroundColor: effectiveColorScheme.primary,
+        foregroundColor: effectiveColorScheme.onPrimary,
         shape: RoundedRectangleBorder(borderRadius: radius),
       ),
-
-      // --------------------------------------------------------
-      // Checkbox
-      // --------------------------------------------------------
       checkboxTheme: CheckboxThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       ),
-
-      // --------------------------------------------------------
-      // Progress
-      // --------------------------------------------------------
       progressIndicatorTheme: ProgressIndicatorThemeData(
-        color: brand.primaryColor,
+        color: effectiveColorScheme.primary,
       ),
     );
   }

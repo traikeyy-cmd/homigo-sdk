@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/theme/homigo_dynamic_colors.dart';
 import '../../design_system/tokens/homigo_colors.dart';
 import '../../design_system/tokens/homigo_elevation.dart';
 import '../../design_system/tokens/homigo_motion.dart';
@@ -58,7 +59,7 @@ class HomiGoSegmentedControl<T> extends StatelessWidget {
     final theme = Theme.of(context);
 
     final radius = borderRadius ?? brand.borderRadius;
-    final effectiveTint = tintColor ?? brand.primaryColor;
+    final effectiveTint = tintColor ?? HomiGoDynamicColors.primary(context);
 
     final isDark = theme.brightness == Brightness.dark;
 
@@ -146,7 +147,9 @@ class _HomiGoSegmentState<T> extends State<_HomiGoSegment<T>> {
         ? HomiGoColors.darkTextSecondary
         : HomiGoColors.lightTextSecondary;
 
-    final foregroundColor = selected ? Colors.white : inactiveColor;
+    final foregroundColor = selected
+        ? theme.colorScheme.onPrimary
+        : inactiveColor;
 
     return AnimatedScale(
       scale: _pressed ? HomiGoMotion.compactPressedScale : 1.0,

@@ -59,6 +59,7 @@ export 'src/design_system/tokens/homigo_elevation.dart';
 
 // Theme
 export 'src/design_system/theme/homigo_theme.dart';
+export 'src/design_system/theme/homigo_dynamic_colors.dart';
 
 // Design System - Native
 export 'src/design_system/native/homigo_native_surface.dart';

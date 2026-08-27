@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.1.1
+
+### Changed
+
+- HomiGo visual primitives now resolve their runtime primary and secondary accents from the host application's active `ColorScheme`.
+- Added `HomiGoDynamicColors` as the shared runtime color resolver.
+- Added `HomiGoTheme.fromColorScheme(...)` and optional `colorScheme` parameters for `HomiGoTheme.light(...)` and `HomiGoTheme.dark(...)`.
+- Updated buttons, text fields, dropdowns, segmented controls, selection controls, elevated icons, navigation, feedback, progress, action, display, and advanced input components to follow the active theme colors while preserving explicit per-component color overrides.
+- Brand colors remain the default seed/fallback when HomiGo builds its own theme.
+
+### Fixed
+
+- Fixed HomiGo components staying on the configured static brand color when a host application supplied Material dynamic colors or a custom `ColorScheme`.
+
 ## 1.1.0
 
 ### Added
