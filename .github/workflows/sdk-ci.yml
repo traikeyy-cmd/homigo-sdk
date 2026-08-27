@@ -33,7 +33,9 @@ jobs:
         run: flutter pub get
 
       - name: Check Core SDK formatting
-        run: dart format --output=none --set-exit-if-changed lib test example/lib
+        run: |
+          dart format lib test example/lib
+          git diff --exit-code
 
       - name: Analyze Core SDK
         run: flutter analyze lib test example/lib
