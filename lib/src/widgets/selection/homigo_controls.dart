@@ -129,9 +129,7 @@ class HomiGoSwitch extends StatelessWidget {
                 color: value ? primary : idleBackground,
                 borderRadius: BorderRadius.circular(HomiGoRadius.pill),
                 border: Border.all(
-                  color: value
-                      ? primary.withValues(alpha: 0.75)
-                      : idleBorder,
+                  color: value ? primary.withValues(alpha: 0.75) : idleBorder,
                 ),
               ),
               child: AnimatedAlign(
