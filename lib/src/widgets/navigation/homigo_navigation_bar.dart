@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/tokens/homigo_colors.dart';
 import '../../design_system/tokens/homigo_motion.dart';
+import '../../design_system/tokens/homigo_radius.dart';
 import '../../platform/system_ui/homigo_insets.dart';
 import '../cards/homigo_glass_card.dart';
 
@@ -55,7 +56,7 @@ class HomiGoNavigationBar extends StatelessWidget {
 
     Widget bar = HomiGoGlassCard(
       margin: margin,
-      borderRadius: 22,
+      borderRadius: HomiGoRadius.xl,
       padding: const EdgeInsets.all(6),
       child: Row(
         children: List.generate(items.length, (index) {
