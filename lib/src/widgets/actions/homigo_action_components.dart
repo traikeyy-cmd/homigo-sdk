@@ -176,11 +176,7 @@ class HomiGoMenu extends StatelessWidget {
                   child: Row(
                     children: [
                       if (items[i].icon != null) ...[
-                        Icon(
-                          items[i].icon,
-                          size: 20,
-                          color: primary,
-                        ),
+                        Icon(items[i].icon, size: 20, color: primary),
                         const SizedBox(width: 12),
                       ],
                       Expanded(
