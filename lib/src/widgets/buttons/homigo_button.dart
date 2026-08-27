@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/theme/homigo_dynamic_colors.dart';
 import '../../design_system/tokens/homigo_colors.dart';
 import '../../design_system/tokens/homigo_motion.dart';
 import '../../design_system/tokens/homigo_typography.dart';
@@ -144,16 +145,14 @@ class _HomiGoButtonState extends State<HomiGoButton> {
   }
 
   Color _backgroundColor(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
-
-    final surface = theme.brightness == Brightness.dark
-        ? HomiGoColors.darkSurface
-        : HomiGoColors.lightSurface;
+    final primary = HomiGoDynamicColors.primary(context);
+    final secondary = HomiGoDynamicColors.secondary(context);
+    final surface = theme.colorScheme.surface;
 
     return switch (widget.variant) {
-      HomiGoButtonVariant.primary => brand.primaryColor,
-      HomiGoButtonVariant.secondary => brand.secondaryColor,
+      HomiGoButtonVariant.primary => primary,
+      HomiGoButtonVariant.secondary => secondary,
       HomiGoButtonVariant.outline => surface,
       HomiGoButtonVariant.ghost => Colors.transparent,
       HomiGoButtonVariant.danger => HomiGoColors.error,
@@ -161,29 +160,27 @@ class _HomiGoButtonState extends State<HomiGoButton> {
   }
 
   Color _borderColor(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
+    final primary = HomiGoDynamicColors.primary(context);
+    final secondary = HomiGoDynamicColors.secondary(context);
 
     return switch (widget.variant) {
-      HomiGoButtonVariant.primary => brand.primaryColor,
-      HomiGoButtonVariant.secondary => brand.secondaryColor,
-      HomiGoButtonVariant.outline => brand.primaryColor.withValues(alpha: 0.45),
+      HomiGoButtonVariant.primary => primary,
+      HomiGoButtonVariant.secondary => secondary,
+      HomiGoButtonVariant.outline => primary.withValues(alpha: 0.45),
       HomiGoButtonVariant.ghost => Colors.transparent,
       HomiGoButtonVariant.danger => HomiGoColors.error,
     };
   }
 
   Color _foregroundColor(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
-
-    final normalText = theme.brightness == Brightness.dark
-        ? HomiGoColors.darkTextPrimary
-        : HomiGoColors.lightTextPrimary;
+    final primary = HomiGoDynamicColors.primary(context);
+    final normalText = theme.colorScheme.onSurface;
 
     return switch (widget.variant) {
-      HomiGoButtonVariant.primary => Colors.white,
-      HomiGoButtonVariant.secondary => Colors.white,
-      HomiGoButtonVariant.outline => brand.primaryColor,
+      HomiGoButtonVariant.primary => theme.colorScheme.onPrimary,
+      HomiGoButtonVariant.secondary => theme.colorScheme.onSecondary,
+      HomiGoButtonVariant.outline => primary,
       HomiGoButtonVariant.ghost => normalText,
       HomiGoButtonVariant.danger => Colors.white,
     };
