@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../core/config/homigo_sdk_core.dart';
-import '../../design_system/native/homigo_native_surface.dart';
+import 'homigo_card.dart';
 
-/// بطاقة HomiGo الموحدة.
+/// Compatibility wrapper for the old HomiGo card API.
 ///
-/// الاسم [HomiGoGlassCard] محفوظ للتوافق مع التطبيقات الحالية،
-/// لكن التنفيذ الداخلي أصبح Native UI بدون Glass أو Blur.
+/// الاسم [HomiGoGlassCard] محفوظ حتى لا تنكسر التطبيقات الحالية.
+///
+/// التنفيذ الفعلي أصبح [HomiGoCard] ضمن HomiGo Native UI.
+///
+/// [blur] و [opacity] محفوظان فقط للتوافق،
+/// ولا يتم استخدام Glass أو Blur.
 class HomiGoGlassCard extends StatefulWidget {
   final Widget child;
 
@@ -18,14 +21,10 @@ class HomiGoGlassCard extends StatefulWidget {
 
   final double? borderRadius;
 
-  /// محفوظ للتوافق مع الإصدارات السابقة.
-  ///
-  /// لم يعد مستخدمًا في Native UI.
+  /// محفوظ للتوافق فقط.
   final double? blur;
 
-  /// محفوظ للتوافق مع الإصدارات السابقة.
-  ///
-  /// لم يعد يتحكم في Glass opacity.
+  /// محفوظ للتوافق فقط.
   final double? opacity;
 
   final Color? backgroundColor;
@@ -34,8 +33,6 @@ class HomiGoGlassCard extends StatefulWidget {
   final VoidCallback? onTap;
 
   final bool enabled;
-
-  /// إذا كانت البطاقة في حالة اختيار أو تركيز.
   final bool selected;
 
   const HomiGoGlassCard({
@@ -60,59 +57,20 @@ class HomiGoGlassCard extends StatefulWidget {
 }
 
 class _HomiGoGlassCardState extends State<HomiGoGlassCard> {
-  bool _pressed = false;
-
-  bool get _interactive => widget.enabled && widget.onTap != null;
-
-  void _setPressed(bool value) {
-    if (_pressed == value || !mounted) {
-      return;
-    }
-
-    setState(() {
-      _pressed = value;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
-
-    final effectiveRadius = widget.borderRadius ?? brand.borderRadius;
-
-    Widget card = HomiGoNativeSurface(
+    return HomiGoCard(
+      padding: widget.padding,
+      margin: widget.margin,
       width: widget.width,
       height: widget.height,
-      borderRadius: effectiveRadius,
+      borderRadius: widget.borderRadius,
       backgroundColor: widget.backgroundColor,
       borderColor: widget.borderColor,
-      selected: widget.selected,
+      onTap: widget.onTap,
       enabled: widget.enabled,
-      elevated: true,
-      padding: widget.padding ?? const EdgeInsets.all(16),
+      selected: widget.selected,
       child: widget.child,
     );
-
-    if (_interactive) {
-      card = Semantics(
-        button: true,
-        enabled: true,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTapDown: (_) => _setPressed(true),
-          onTapUp: (_) => _setPressed(false),
-          onTapCancel: () => _setPressed(false),
-          onTap: widget.onTap,
-          child: AnimatedScale(
-            scale: _pressed ? 0.98 : 1.0,
-            duration: const Duration(milliseconds: 150),
-            curve: Curves.easeOutCubic,
-            child: card,
-          ),
-        ),
-      );
-    }
-
-    return Container(margin: widget.margin, child: card);
   }
 }

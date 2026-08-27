@@ -65,6 +65,7 @@ export 'src/design_system/native/homigo_native_surface.dart';
 export 'src/design_system/liquid/homigo_liquid_surface.dart';
 
 // Widgets - Cards
+export 'src/widgets/cards/homigo_card.dart';
 export 'src/widgets/cards/homigo_glass_card.dart';
 
 // Widgets - Buttons
