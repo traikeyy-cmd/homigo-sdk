@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/tokens/homigo_motion.dart';
 
 /// البطاقة العامة الرسمية في HomiGo Design System.
 ///
@@ -121,9 +122,9 @@ class _HomiGoCardState extends State<HomiGoCard> {
           onTapCancel: () => _setPressed(false),
           onTap: widget.onTap,
           child: AnimatedScale(
-            scale: _pressed ? 0.98 : 1.0,
-            duration: const Duration(milliseconds: 150),
-            curve: Curves.easeOutCubic,
+            scale: _pressed ? HomiGoMotion.pressedScale : 1.0,
+            duration: HomiGoMotion.fast,
+            curve: HomiGoMotion.standardCurve,
             child: card,
           ),
         ),

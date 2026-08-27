@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
+import '../../design_system/tokens/homigo_elevation.dart';
+import '../../design_system/tokens/homigo_motion.dart';
 
 /// أيقونة بارزة بهوية HomiGo Native UI.
 ///
@@ -48,8 +50,8 @@ class HomiGoElevatedIcon extends StatelessWidget {
         secondaryColor ?? Color.lerp(baseColor, Colors.white, 0.22)!;
 
     return AnimatedOpacity(
-      duration: const Duration(milliseconds: 160),
-      curve: Curves.easeOut,
+      duration: HomiGoMotion.fast,
+      curve: HomiGoMotion.fastCurve,
       opacity: enabled ? 1.0 : 0.48,
       child: Container(
         width: size,
@@ -64,14 +66,18 @@ class HomiGoElevatedIcon extends StatelessWidget {
           boxShadow: elevated
               ? [
                   BoxShadow(
-                    color: baseColor.withValues(alpha: 0.22),
-                    blurRadius: 12,
-                    offset: const Offset(0, 6),
+                    color: baseColor.withValues(
+                      alpha: HomiGoElevation.iconPrimaryOpacity,
+                    ),
+                    blurRadius: HomiGoElevation.iconPrimaryBlur,
+                    offset: HomiGoElevation.iconPrimaryOffset,
                   ),
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.06),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
+                    color: Colors.black.withValues(
+                      alpha: HomiGoElevation.iconSecondaryOpacity,
+                    ),
+                    blurRadius: HomiGoElevation.iconSecondaryBlur,
+                    offset: HomiGoElevation.iconSecondaryOffset,
                   ),
                 ]
               : const [],

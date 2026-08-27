@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
 import '../tokens/homigo_colors.dart';
+import '../tokens/homigo_elevation.dart';
+import '../tokens/homigo_motion.dart';
 
 /// السطح الأساسي الحديث في HomiGo SDK.
 ///
@@ -104,12 +106,12 @@ class HomiGoNativeSurface extends StatelessWidget {
         : baseBorder;
 
     return AnimatedOpacity(
-      duration: const Duration(milliseconds: 160),
-      curve: Curves.easeOut,
+      duration: HomiGoMotion.fast,
+      curve: HomiGoMotion.fastCurve,
       opacity: enabled ? 1.0 : 0.52,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        curve: Curves.easeOutCubic,
+        duration: HomiGoMotion.standard,
+        curve: HomiGoMotion.standardCurve,
         width: width,
         height: height,
         padding: padding,
@@ -121,10 +123,12 @@ class HomiGoNativeSurface extends StatelessWidget {
               ? [
                   BoxShadow(
                     color: Colors.black.withValues(
-                      alpha: isDark ? 0.22 : 0.055,
+                      alpha: isDark
+                          ? HomiGoElevation.cardOpacityDark
+                          : HomiGoElevation.cardOpacityLight,
                     ),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
+                    blurRadius: HomiGoElevation.cardBlur,
+                    offset: HomiGoElevation.cardOffset,
                   ),
                 ]
               : const [],

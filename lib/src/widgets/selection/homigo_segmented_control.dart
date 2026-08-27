@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
 import '../../design_system/tokens/homigo_colors.dart';
+import '../../design_system/tokens/homigo_elevation.dart';
+import '../../design_system/tokens/homigo_motion.dart';
 import '../../design_system/tokens/homigo_typography.dart';
 
 @immutable
@@ -147,9 +149,9 @@ class _HomiGoSegmentState<T> extends State<_HomiGoSegment<T>> {
     final foregroundColor = selected ? Colors.white : inactiveColor;
 
     return AnimatedScale(
-      scale: _pressed ? 0.975 : 1.0,
-      duration: const Duration(milliseconds: 120),
-      curve: Curves.easeOut,
+      scale: _pressed ? HomiGoMotion.compactPressedScale : 1.0,
+      duration: HomiGoMotion.press,
+      curve: HomiGoMotion.fastCurve,
       child: Material(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(widget.radius),
@@ -160,17 +162,19 @@ class _HomiGoSegmentState<T> extends State<_HomiGoSegment<T>> {
           splashColor: widget.tintColor.withValues(alpha: 0.06),
           highlightColor: Colors.transparent,
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 180),
-            curve: Curves.easeOutCubic,
+            duration: HomiGoMotion.standard,
+            curve: HomiGoMotion.standardCurve,
             decoration: BoxDecoration(
               color: selected ? widget.tintColor : Colors.transparent,
               borderRadius: BorderRadius.circular(widget.radius),
               boxShadow: selected
                   ? [
                       BoxShadow(
-                        color: widget.tintColor.withValues(alpha: 0.18),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
+                        color: widget.tintColor.withValues(
+                          alpha: HomiGoElevation.selectedOpacity,
+                        ),
+                        blurRadius: HomiGoElevation.selectedBlur,
+                        offset: HomiGoElevation.selectedOffset,
                       ),
                     ]
                   : const [],
@@ -178,8 +182,8 @@ class _HomiGoSegmentState<T> extends State<_HomiGoSegment<T>> {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: Center(
               child: AnimatedDefaultTextStyle(
-                duration: const Duration(milliseconds: 180),
-                curve: Curves.easeOutCubic,
+                duration: HomiGoMotion.standard,
+                curve: HomiGoMotion.standardCurve,
                 style: HomiGoTypography.labelMedium.copyWith(
                   color: foregroundColor,
                   fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
@@ -190,8 +194,8 @@ class _HomiGoSegmentState<T> extends State<_HomiGoSegment<T>> {
                   children: [
                     if (widget.item.icon != null) ...[
                       AnimatedScale(
-                        duration: const Duration(milliseconds: 180),
-                        curve: Curves.easeOutCubic,
+                        duration: HomiGoMotion.standard,
+                        curve: HomiGoMotion.standardCurve,
                         scale: selected ? 1.06 : 1.0,
                         child: Icon(
                           widget.item.icon,

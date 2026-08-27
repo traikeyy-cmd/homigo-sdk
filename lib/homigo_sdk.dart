@@ -54,6 +54,8 @@ export 'src/design_system/tokens/homigo_colors.dart';
 export 'src/design_system/tokens/homigo_radius.dart';
 export 'src/design_system/tokens/homigo_spacing.dart';
 export 'src/design_system/tokens/homigo_typography.dart';
+export 'src/design_system/tokens/homigo_motion.dart';
+export 'src/design_system/tokens/homigo_elevation.dart';
 
 // Theme
 export 'src/design_system/theme/homigo_theme.dart';
