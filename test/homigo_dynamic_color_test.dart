@@ -25,10 +25,7 @@ void main() {
   testWidgets('core visual primitives follow host ColorScheme', (tester) async {
     final scheme = ColorScheme.fromSeed(
       seedColor: dynamicPrimary,
-    ).copyWith(
-      primary: dynamicPrimary,
-      secondary: dynamicSecondary,
-    );
+    ).copyWith(primary: dynamicPrimary, secondary: dynamicSecondary);
 
     await tester.pumpWidget(
       MaterialApp(
@@ -62,10 +59,12 @@ void main() {
     );
 
     final iconContainer = tester.widget<Container>(
-      find.descendant(
-        of: find.byType(HomiGoElevatedIcon),
-        matching: find.byType(Container),
-      ).first,
+      find
+          .descendant(
+            of: find.byType(HomiGoElevatedIcon),
+            matching: find.byType(Container),
+          )
+          .first,
     );
     final decoration = iconContainer.decoration! as BoxDecoration;
     final gradient = decoration.gradient! as LinearGradient;
@@ -78,10 +77,7 @@ void main() {
     final scheme = ColorScheme.fromSeed(
       seedColor: dynamicPrimary,
       brightness: Brightness.dark,
-    ).copyWith(
-      primary: dynamicPrimary,
-      secondary: dynamicSecondary,
-    );
+    ).copyWith(primary: dynamicPrimary, secondary: dynamicSecondary);
 
     final theme = HomiGoTheme.fromColorScheme(scheme);
 
