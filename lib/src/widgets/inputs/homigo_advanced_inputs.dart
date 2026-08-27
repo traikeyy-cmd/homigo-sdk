@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/theme/homigo_dynamic_colors.dart';
 import '../../design_system/tokens/homigo_radius.dart';
 import '../buttons/homigo_button.dart';
 import '../cards/homigo_glass_card.dart';
@@ -65,19 +66,19 @@ class HomiGoSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
+    final primary = HomiGoDynamicColors.primary(context);
 
     return HomiGoNativeSurface(
       borderRadius: HomiGoRadius.lg,
-      tintColor: brand.primaryColor,
+      tintColor: primary,
       tintStrength: 0.018,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       child: SliderTheme(
         data: SliderTheme.of(context).copyWith(
-          activeTrackColor: brand.primaryColor.withValues(alpha: 0.75),
-          inactiveTrackColor: brand.primaryColor.withValues(alpha: 0.10),
-          thumbColor: brand.primaryColor,
-          overlayColor: brand.primaryColor.withValues(alpha: 0.10),
+          activeTrackColor: primary.withValues(alpha: 0.75),
+          inactiveTrackColor: primary.withValues(alpha: 0.10),
+          thumbColor: primary,
+          overlayColor: primary.withValues(alpha: 0.10),
           trackHeight: 4,
         ),
         child: Slider(
@@ -111,19 +112,19 @@ class HomiGoRangeSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
+    final primary = HomiGoDynamicColors.primary(context);
 
     return HomiGoNativeSurface(
       borderRadius: HomiGoRadius.lg,
-      tintColor: brand.primaryColor,
+      tintColor: primary,
       tintStrength: 0.018,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       child: SliderTheme(
         data: SliderTheme.of(context).copyWith(
-          activeTrackColor: brand.primaryColor.withValues(alpha: 0.75),
-          inactiveTrackColor: brand.primaryColor.withValues(alpha: 0.10),
-          thumbColor: brand.primaryColor,
-          overlayColor: brand.primaryColor.withValues(alpha: 0.10),
+          activeTrackColor: primary.withValues(alpha: 0.75),
+          inactiveTrackColor: primary.withValues(alpha: 0.10),
+          thumbColor: primary,
+          overlayColor: primary.withValues(alpha: 0.10),
           trackHeight: 4,
         ),
         child: RangeSlider(
@@ -172,6 +173,7 @@ class HomiGoNumberField extends StatelessWidget {
   Widget build(BuildContext context) {
     final brand = HomiGoSDK.config.brand;
     final theme = Theme.of(context);
+    final primary = HomiGoDynamicColors.primary(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,7 +184,7 @@ class HomiGoNumberField extends StatelessWidget {
         ],
         HomiGoNativeSurface(
           borderRadius: brand.borderRadius,
-          tintColor: brand.primaryColor,
+          tintColor: primary,
           tintStrength: 0.025,
           padding: const EdgeInsets.all(6),
           child: Row(
@@ -218,7 +220,7 @@ class _NumberButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
+    final primary = HomiGoDynamicColors.primary(context);
 
     return Material(
       color: Colors.transparent,
@@ -230,15 +232,13 @@ class _NumberButton extends StatelessWidget {
           width: 42,
           height: 42,
           borderRadius: HomiGoRadius.md,
-          tintColor: brand.primaryColor,
+          tintColor: primary,
           tintStrength: 0.06,
           padding: EdgeInsets.zero,
           child: Center(
             child: Icon(
               icon,
-              color: onTap == null
-                  ? Theme.of(context).disabledColor
-                  : brand.primaryColor,
+              color: onTap == null ? Theme.of(context).disabledColor : primary,
             ),
           ),
         ),
