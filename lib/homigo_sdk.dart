@@ -77,6 +77,7 @@ export 'src/widgets/inputs/homigo_dropdown.dart';
 export 'src/widgets/inputs/homigo_advanced_inputs.dart';
 
 // Widgets - Selection
+export 'src/widgets/selection/homigo_segmented_control.dart';
 export 'src/widgets/selection/homigo_liquid_segmented_control.dart';
 export 'src/widgets/selection/homigo_liquid_controls.dart';
 export 'src/widgets/selection/homigo_agreement_tile.dart';
