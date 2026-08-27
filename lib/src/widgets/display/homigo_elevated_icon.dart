@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/config/homigo_sdk_core.dart';
+import '../../design_system/theme/homigo_dynamic_colors.dart';
 import '../../design_system/tokens/homigo_elevation.dart';
 import '../../design_system/tokens/homigo_motion.dart';
 
@@ -42,9 +42,7 @@ class HomiGoElevatedIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = HomiGoSDK.config.brand;
-
-    final baseColor = color ?? brand.primaryColor;
+    final baseColor = color ?? HomiGoDynamicColors.primary(context);
 
     final gradientEnd =
         secondaryColor ?? Color.lerp(baseColor, Colors.white, 0.22)!;
@@ -83,7 +81,11 @@ class HomiGoElevatedIcon extends StatelessWidget {
               : const [],
         ),
         child: Center(
-          child: Icon(icon, size: iconSize, color: Colors.white),
+          child: Icon(
+            icon,
+            size: iconSize,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
         ),
       ),
     );
