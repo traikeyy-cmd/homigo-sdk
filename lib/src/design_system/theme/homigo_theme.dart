@@ -220,10 +220,7 @@ abstract final class HomiGoTheme {
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: radius,
-          borderSide: BorderSide(
-            color: effectiveColorScheme.error,
-            width: 1.5,
-          ),
+          borderSide: BorderSide(color: effectiveColorScheme.error, width: 1.5),
         ),
       ),
       dividerTheme: DividerThemeData(
