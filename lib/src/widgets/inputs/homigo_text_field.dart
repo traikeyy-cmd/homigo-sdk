@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/theme/homigo_dynamic_colors.dart';
 import '../../design_system/tokens/homigo_colors.dart';
 
 /// أحجام حقول الإدخال في HomiGo Native UI.
@@ -180,8 +181,9 @@ class _HomiGoTextFieldState extends State<HomiGoTextField> {
 
     final isDark = theme.brightness == Brightness.dark;
     final hasError = widget.errorText != null;
+    final primary = HomiGoDynamicColors.primary(context);
 
-    final accentColor = hasError ? HomiGoColors.error : brand.primaryColor;
+    final accentColor = hasError ? HomiGoColors.error : primary;
 
     final idleBorder = isDark
         ? HomiGoColors.darkBorder
@@ -190,7 +192,7 @@ class _HomiGoTextFieldState extends State<HomiGoTextField> {
     final effectiveBorderColor = hasError
         ? HomiGoColors.error.withValues(alpha: 0.72)
         : _focused
-        ? brand.primaryColor.withValues(alpha: 0.68)
+        ? primary.withValues(alpha: 0.68)
         : idleBorder;
 
     return Column(
