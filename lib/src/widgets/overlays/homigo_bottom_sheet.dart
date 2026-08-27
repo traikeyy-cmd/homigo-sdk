@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../design_system/tokens/homigo_radius.dart';
 import '../../platform/system_ui/homigo_insets.dart';
 import '../cards/homigo_glass_card.dart';
 
@@ -26,7 +27,7 @@ abstract final class HomiGoBottomSheet {
         Widget sheet = Padding(
           padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
           child: HomiGoGlassCard(
-            borderRadius: 28,
+            borderRadius: HomiGoRadius.xxl,
             padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -37,7 +38,7 @@ abstract final class HomiGoBottomSheet {
                     height: 4,
                     decoration: BoxDecoration(
                       color: theme.dividerColor.withValues(alpha: 0.45),
-                      borderRadius: BorderRadius.circular(999),
+                      borderRadius: BorderRadius.circular(HomiGoRadius.pill),
                     ),
                   ),
                   const SizedBox(height: 14),

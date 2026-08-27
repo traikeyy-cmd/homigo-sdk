@@ -32,40 +32,79 @@ class HomiGoExampleApp extends StatelessWidget {
   }
 }
 
-class ExampleHomeScreen extends StatelessWidget {
+class ExampleHomeScreen extends StatefulWidget {
   const ExampleHomeScreen({super.key});
+
+  @override
+  State<ExampleHomeScreen> createState() => _ExampleHomeScreenState();
+}
+
+class _ExampleHomeScreenState extends State<ExampleHomeScreen> {
+  String _view = 'active';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('HomiGo SDK')),
+      appBar: AppBar(title: const Text('HomiGo SDK 1.1.0')),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(HomiGoSpacing.xl),
           children: [
-            HomiGoGlassCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+            HomiGoSegmentedControl<String>(
+              value: _view,
+              items: const [
+                HomiGoSegmentItem(value: 'active', label: 'Active'),
+                HomiGoSegmentItem(value: 'completed', label: 'Completed'),
+              ],
+              onChanged: (value) {
+                setState(() => _view = value);
+              },
+            ),
+            const SizedBox(height: HomiGoSpacing.xl),
+            HomiGoCard(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'HomiGo SDK 1.0.1',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 12),
-                  const Text(
-                    'Reusable UI, platform adapters, core services, '
-                    'networking and production infrastructure.',
+                  const HomiGoElevatedIcon(icon: Icons.schedule_rounded),
+                  const SizedBox(width: HomiGoSpacing.lg),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _view == 'active'
+                              ? 'Custom request card'
+                              : 'Completed request card',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: HomiGoSpacing.sm),
+                        Text(
+                          'This content belongs to the host application. '
+                          'HomiGo supplies the visual primitives.',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        const SizedBox(height: HomiGoSpacing.md),
+                        HomiGoStatusBadge(
+                          label: _view == 'active'
+                              ? 'In progress'
+                              : 'Completed',
+                          status: _view == 'active'
+                              ? HomiGoStatus.info
+                              : HomiGoStatus.success,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: HomiGoSpacing.xl),
             HomiGoButton(
               text: 'HomiGo Button',
               onPressed: () {
                 HomiGoSnackBar.show(
                   context: context,
-                  message: 'HomiGo SDK is running.',
+                  message: 'HomiGo Native UI is running.',
                 );
               },
             ),

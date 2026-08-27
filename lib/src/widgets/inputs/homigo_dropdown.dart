@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/tokens/homigo_radius.dart';
 import '../cards/homigo_glass_card.dart';
 
 @immutable
@@ -134,7 +135,7 @@ class HomiGoDropdown<T> extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: HomiGoGlassCard(
-              borderRadius: 28,
+              borderRadius: HomiGoRadius.xxl,
               padding: const EdgeInsets.all(16),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -144,7 +145,7 @@ class HomiGoDropdown<T> extends StatelessWidget {
                     height: 4,
                     decoration: BoxDecoration(
                       color: theme.dividerColor.withValues(alpha: 0.45),
-                      borderRadius: BorderRadius.circular(999),
+                      borderRadius: BorderRadius.circular(HomiGoRadius.pill),
                     ),
                   ),
                   if (sheetTitle != null) ...[

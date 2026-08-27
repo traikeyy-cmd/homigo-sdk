@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/tokens/homigo_radius.dart';
 import '../buttons/homigo_button.dart';
 import '../cards/homigo_glass_card.dart';
 import 'homigo_dropdown.dart';
@@ -67,7 +68,7 @@ class HomiGoSlider extends StatelessWidget {
     final brand = HomiGoSDK.config.brand;
 
     return HomiGoNativeSurface(
-      borderRadius: 18,
+      borderRadius: HomiGoRadius.lg,
       tintColor: brand.primaryColor,
       tintStrength: 0.018,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -113,7 +114,7 @@ class HomiGoRangeSlider extends StatelessWidget {
     final brand = HomiGoSDK.config.brand;
 
     return HomiGoNativeSurface(
-      borderRadius: 18,
+      borderRadius: HomiGoRadius.lg,
       tintColor: brand.primaryColor,
       tintStrength: 0.018,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -221,14 +222,14 @@ class _NumberButton extends StatelessWidget {
 
     return Material(
       color: Colors.transparent,
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(HomiGoRadius.md),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(HomiGoRadius.md),
         child: HomiGoNativeSurface(
           width: 42,
           height: 42,
-          borderRadius: 14,
+          borderRadius: HomiGoRadius.md,
           tintColor: brand.primaryColor,
           tintStrength: 0.06,
           padding: EdgeInsets.zero,
@@ -348,7 +349,7 @@ class HomiGoSearchableDropdown<T> extends StatelessWidget {
                   bottom: MediaQuery.of(context).viewInsets.bottom + 12,
                 ),
                 child: HomiGoGlassCard(
-                  borderRadius: 28,
+                  borderRadius: HomiGoRadius.xxl,
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -451,7 +452,7 @@ class HomiGoMultiSelect<T> extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(12),
                 child: HomiGoGlassCard(
-                  borderRadius: 28,
+                  borderRadius: HomiGoRadius.xxl,
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/tokens/homigo_radius.dart';
 import '../../platform/system_ui/homigo_insets.dart';
 import '../cards/homigo_glass_card.dart';
 
@@ -88,7 +89,7 @@ class HomiGoDrawer extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: HomiGoGlassCard(
-            borderRadius: 28,
+            borderRadius: HomiGoRadius.xxl,
             padding: const EdgeInsets.all(16),
             child: child,
           ),
@@ -129,7 +130,7 @@ class HomiGoPageIndicator extends StatelessWidget {
           width: selected ? dotSize * 2.6 : dotSize,
           height: dotSize,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(999),
+            borderRadius: BorderRadius.circular(HomiGoRadius.pill),
             color: tint.withValues(alpha: selected ? 0.82 : 0.18),
             boxShadow: selected
                 ? [

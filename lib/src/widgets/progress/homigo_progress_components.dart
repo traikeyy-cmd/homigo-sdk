@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/tokens/homigo_radius.dart';
 
 class HomiGoProgressBar extends StatelessWidget {
   final double value;
@@ -23,7 +24,7 @@ class HomiGoProgressBar extends StatelessWidget {
 
     return HomiGoNativeSurface(
       height: height,
-      borderRadius: 999,
+      borderRadius: HomiGoRadius.pill,
       tintColor: tint,
       tintStrength: 0.012,
       padding: const EdgeInsets.all(2),
@@ -36,7 +37,7 @@ class HomiGoProgressBar extends StatelessWidget {
               curve: Curves.easeOut,
               width: constraints.maxWidth * progress,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(999),
+                borderRadius: BorderRadius.circular(HomiGoRadius.pill),
                 gradient: LinearGradient(
                   colors: [
                     tint.withValues(alpha: 0.48),
@@ -76,7 +77,7 @@ class HomiGoCircularProgress extends StatelessWidget {
     return HomiGoNativeSurface(
       width: size,
       height: size,
-      borderRadius: 999,
+      borderRadius: HomiGoRadius.pill,
       tintColor: tint,
       tintStrength: 0.04,
       padding: const EdgeInsets.all(8),
@@ -142,16 +143,16 @@ class HomiGoStepper extends StatelessWidget {
                   children: [
                     Material(
                       color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(999),
+                      borderRadius: BorderRadius.circular(HomiGoRadius.pill),
                       child: InkWell(
                         onTap: onStepTapped == null
                             ? null
                             : () => onStepTapped!(index),
-                        borderRadius: BorderRadius.circular(999),
+                        borderRadius: BorderRadius.circular(HomiGoRadius.pill),
                         child: HomiGoNativeSurface(
                           width: 36,
                           height: 36,
-                          borderRadius: 999,
+                          borderRadius: HomiGoRadius.pill,
                           tintColor: tint,
                           selected: active || completed,
                           tintStrength: active || completed ? 0.085 : 0.012,

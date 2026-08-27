@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
+import '../../design_system/tokens/homigo_radius.dart';
 import '../cards/homigo_glass_card.dart';
 
 class HomiGoIconButton extends StatelessWidget {
@@ -80,14 +81,14 @@ class HomiGoFloatingActionButton extends StatelessWidget {
 
     Widget button = Material(
       color: Colors.transparent,
-      borderRadius: BorderRadius.circular(999),
+      borderRadius: BorderRadius.circular(HomiGoRadius.pill),
       child: InkWell(
         onTap: onPressed,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(HomiGoRadius.pill),
         child: HomiGoNativeSurface(
           width: size,
           height: size,
-          borderRadius: 999,
+          borderRadius: HomiGoRadius.pill,
           tintColor: tint,
           tintStrength: 0.09,
           selected: true,
@@ -161,12 +162,12 @@ class HomiGoMenu extends StatelessWidget {
           for (var i = 0; i < items.length; i++) ...[
             Material(
               color: Colors.transparent,
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(HomiGoRadius.md),
               child: InkWell(
                 onTap: items[i].onTap,
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(HomiGoRadius.md),
                 child: HomiGoNativeSurface(
-                  borderRadius: 14,
+                  borderRadius: HomiGoRadius.md,
                   tintColor: brand.primaryColor,
                   tintStrength: 0.015,
                   padding: const EdgeInsets.symmetric(
@@ -266,7 +267,7 @@ class _HomiGoPopupMenuState<T> extends State<HomiGoPopupMenu<T>> {
           value: item.value,
           padding: EdgeInsets.zero,
           child: HomiGoNativeSurface(
-            borderRadius: 14,
+            borderRadius: HomiGoRadius.md,
             tintColor: brand.primaryColor,
             tintStrength: 0.028,
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
