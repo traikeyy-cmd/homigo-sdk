@@ -1,5 +1,32 @@
 # Changelog
 
+## 1.1.0
+
+### Added
+
+- Introduced the official `HomiGoCard` generic card primitive.
+- Introduced the official `HomiGoSegmentedControl` API.
+- Added canonical native `HomiGoCheckbox`, `HomiGoSwitch`, and `HomiGoRadio` exports.
+- Added `HomiGoMotion` tokens for shared interaction timings, curves, and press scales.
+- Added `HomiGoElevation` tokens for shared native shadow values.
+- Added compatibility and native-design regression tests.
+
+### Changed
+
+- Migrated the HomiGo visual system to lightweight native solid surfaces with subtle borders, shadows, elevated icons, and micro-animations.
+- Removed runtime Glass/Liquid blur from HomiGo component internals.
+- Standardized core cards, buttons, navigation, selection controls, actions, inputs, progress components, and overlays on shared design tokens where values match the established visual system.
+- Updated the example application to demonstrate composing application-specific UI from generic HomiGo primitives rather than relying on a predefined application structure.
+- Updated documentation for the Native UI toolkit architecture.
+
+### Compatibility
+
+- `HomiGoGlassCard` remains available and delegates to `HomiGoCard`.
+- `HomiGoLiquidSegmentedControl` remains available and delegates to `HomiGoSegmentedControl`.
+- `HomiGoLiquidSurface` remains available as a compatibility wrapper around the native surface.
+- The legacy `homigo_liquid_controls.dart` import path re-exports the canonical native selection controls.
+- Legacy glass-related configuration fields remain source-compatible for this minor release.
+
 ## 1.0.1
 
 ### Changed
