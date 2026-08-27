@@ -322,7 +322,8 @@ flutter run
 ```bash
 flutter pub get
 dart format lib test example/lib
-flutter analyzelutter test
+flutter analyze
+flutter test
 dart pub publish --dry-run
 ```
 
