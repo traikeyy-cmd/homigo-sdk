@@ -6,7 +6,7 @@ This package is intentionally separated from the Core SDK so applications that d
 
 ## Version
 
-Current release: **1.0.0**
+Current release: **1.0.1**
 
 ## Features
 
@@ -33,8 +33,8 @@ Or add the Core SDK and Firebase companion package manually:
 
 ```yaml
 dependencies:
-  homigo_sdk: ^1.0.1
-  homigo_sdk_firebase: ^1.0.0
+  homigo_sdk: ^1.1.0
+  homigo_sdk_firebase: ^1.0.1
 ```
 
 Then run:
@@ -139,11 +139,11 @@ HomiGo SDK Firebase does not embed application-specific Firebase credentials.
 
 ## Core SDK
 
-This package depends on HomiGo Core SDK.
+This package depends on HomiGo Core SDK 1.1.x.
 
 ```yaml
 dependencies:
-  homigo_sdk: ^1.0.1
+  homigo_sdk: ^1.1.0
 ```
 
 Core SDK repository:
