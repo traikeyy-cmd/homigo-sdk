@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1
+
+### Changed
+
+- Updated the HomiGo Core SDK dependency to `^1.1.0`.
+- Confirmed compatibility with the HomiGo Native Design System 1.1.0 release.
+
 ## 1.0.0
 
 Initial public release of HomiGo SDK Firebase.
