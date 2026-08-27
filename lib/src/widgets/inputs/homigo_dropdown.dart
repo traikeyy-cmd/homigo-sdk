@@ -204,19 +204,17 @@ class HomiGoDropdown<T> extends StatelessWidget {
                                   Expanded(
                                     child: Text(
                                       item.label,
-                                      style: theme.textTheme.bodyMedium?.copyWith(
-                                        color: isSelected ? primary : null,
-                                        fontWeight: isSelected
-                                            ? FontWeight.w700
-                                            : null,
-                                      ),
+                                      style: theme.textTheme.bodyMedium
+                                          ?.copyWith(
+                                            color: isSelected ? primary : null,
+                                            fontWeight: isSelected
+                                                ? FontWeight.w700
+                                                : null,
+                                          ),
                                     ),
                                   ),
                                   if (isSelected)
-                                    Icon(
-                                      Icons.check_rounded,
-                                      color: primary,
-                                    ),
+                                    Icon(Icons.check_rounded, color: primary),
                                 ],
                               ),
                             ),
