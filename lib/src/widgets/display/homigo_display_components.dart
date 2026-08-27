@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/config/homigo_sdk_core.dart';
 import '../../design_system/native/homigo_native_surface.dart';
 import '../../design_system/tokens/homigo_colors.dart';
+import '../../design_system/tokens/homigo_radius.dart';
 import '../cards/homigo_glass_card.dart';
 
 class HomiGoListTile extends StatelessWidget {
@@ -133,12 +134,12 @@ class HomiGoChip extends StatelessWidget {
 
     return Material(
       color: Colors.transparent,
-      borderRadius: BorderRadius.circular(999),
+      borderRadius: BorderRadius.circular(HomiGoRadius.pill),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(HomiGoRadius.pill),
         child: HomiGoNativeSurface(
-          borderRadius: 999,
+          borderRadius: HomiGoRadius.pill,
           tintColor: tint,
           selected: selected,
           tintStrength: selected ? 0.09 : 0.018,
@@ -189,7 +190,7 @@ class HomiGoBadge extends StatelessWidget {
     final tint = tintColor ?? brand.primaryColor;
 
     final badge = HomiGoNativeSurface(
-      borderRadius: 999,
+      borderRadius: HomiGoRadius.pill,
       tintColor: tint,
       tintStrength: 0.09,
       selected: true,
@@ -244,7 +245,7 @@ class HomiGoAvatar extends StatelessWidget {
     return HomiGoNativeSurface(
       width: size,
       height: size,
-      borderRadius: 999,
+      borderRadius: HomiGoRadius.pill,
       tintColor: tint,
       selected: true,
       tintStrength: 0.075,
@@ -293,7 +294,7 @@ class HomiGoStatusBadge extends StatelessWidget {
     };
 
     return HomiGoNativeSurface(
-      borderRadius: 999,
+      borderRadius: HomiGoRadius.pill,
       tintColor: color,
       tintStrength: 0.075,
       selected: true,
@@ -407,7 +408,7 @@ class HomiGoSkeleton extends StatefulWidget {
     super.key,
     required this.width,
     required this.height,
-    this.borderRadius = 14,
+    this.borderRadius = HomiGoRadius.md,
   });
 
   @override
