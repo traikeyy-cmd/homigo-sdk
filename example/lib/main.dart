@@ -85,7 +85,9 @@ class _ExampleHomeScreenState extends State<ExampleHomeScreen> {
                         ),
                         const SizedBox(height: HomiGoSpacing.md),
                         HomiGoStatusBadge(
-                          label: _view == 'active' ? 'In progress' : 'Completed',
+                          label: _view == 'active'
+                              ? 'In progress'
+                              : 'Completed',
                           status: _view == 'active'
                               ? HomiGoStatus.info
                               : HomiGoStatus.success,
